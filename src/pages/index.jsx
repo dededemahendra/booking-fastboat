@@ -6,13 +6,28 @@ const HomePage= ()=> {
     <>
       <Banner />
 
-      <Box textAlign={"center"} marginTop={"10"}>
-        <Heading>Destination</Heading>
-        <Text marginTop="4">Boat Destination</Text>
+      <Box textAlign={"center"} marginTop={"10"} paddingX="16">
+        <Heading fontSize="3xl">Destination</Heading>
+        <Text marginTop="3" marginBottom="6">Boat Destination</Text>
+
+        <Grid templateColumns={{base: "1fr", lg: "repeat(3, 1fr)"}} columnGap="7">
+          {
+            [...Array(3)].map((_, k)=> (
+              <Box position="relative" key={k}>
+                <Image src="boat_bridge.jpeg" />
+
+                <Box marginX="auto" marginTop="-20" width="90%" backgroundColor="gray" borderRadius="md" textAlign="left" padding="8" minH="52" zIndex="2" position="relative">
+                  <Heading marginBottom="2" fontSize="xl">Lembongan Island</Heading>
+                  <Text fontSize="sm">Lembongan Island Nusa Lembongan is a small holiday island destination 20 km off the southeast coast of Bali. You can reach it with a 45-minute boat ride from Sanur Beach or Benoa Harbour. It’s a lot quieter than the south of Bali, making it a great place to go for a quiet, relaxing break.</Text>
+                </Box>
+              </Box>
+            ))
+          }
+        </Grid>
       </Box>
 
-      <Box textAlign={"center"} marginTop="8" paddingBottom="20">
-        <Heading fontSize="xl" marginBottom="16">Testimoni</Heading>
+      <Box textAlign={"center"} marginTop="16" paddingBottom="20">
+        <Heading fontSize="2xl" marginBottom="16">Testimoni</Heading>
 
         <Grid templateColumns={{base: "repeat(2, 1fr)", lg: "repeat(4, 1fr)"}} paddingX={{base: "10", lg: "28"}} columnGap="5">
           {

@@ -1,9 +1,8 @@
 import { Outlet } from "react-router-dom"
+import { Box, Image, Flex } from '@chakra-ui/react'
+import { useState, useEffect } from "react"
 import Header from "./../components/Header"
 import Footer from "./../components/Footer"
-import {Box} from '@chakra-ui/react'
-import { useState } from "react"
-import { useEffect } from "react"
 
 const MainLayout= ()=> {
   const [isLoading, setIsLoading]= useState(true)
@@ -15,15 +14,15 @@ const MainLayout= ()=> {
   }, [])
 
   if (isLoading) {
-    return <>
-      <p>Loading</p>
-    </>
+    return <Flex width="full" height="100vh" backgroundColor="white" justifyContent="center" alignItems="center">
+      <Image src="loading.gif" alignSelf="center" />
+    </Flex>
   } else {
     return (
       <>
         <Header/>
   
-        <Box paddingTop={"65px"} minH={"100vh"} width={"full"}>
+        <Box paddingTop={"90px"} minH={"100vh"} width={"full"}>
           <Outlet/>
         </Box>
   
