@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate, createSearchParams } from 'react-router-dom'
 import moment from "moment"
 import { useEffect } from 'react'
-import {Box, Heading, Text, Flex, Grid, Select, Button, useColorMode, Input, Checkbox, useToast} from '@chakra-ui/react'
+import {Box, Heading, Text, Flex, Select, Button, useColorMode, Input, Checkbox, useToast} from '@chakra-ui/react'
 
 const Banner= ()=> {
   const {colorMode}= useColorMode()
@@ -17,7 +17,7 @@ const Banner= ()=> {
   const [to, setTo]= useState("")
   const [nationality, setNationality]= useState("") 
   const [departureDate, setDepartureDate]= useState(moment().format("yyyy-M-DD"))
-  const [returnDate, setReturnDate]= useState(moment().format("yyyy-MM-DD"))
+  const [returnDate, setReturnDate]= useState(departureDate)
   const [isReturnChecked, setIsReturnCheked]= useState(false)
   const [passenger, setPassenger]= useState(1) 
 

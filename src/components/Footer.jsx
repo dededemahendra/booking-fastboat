@@ -6,7 +6,7 @@ function DefaultText({children}) {
 
 const Footer= ()=> {
   return (
-    <Flex paddingX={{base: "10", lg: "36"}} paddingTop={"7"} paddingBottom={"14"}  backgroundColor={"#192A39"} templateColumns={"repeat(4, 1fr)"} justifyContent="space-between" flexDirection={{base: "column", lg: "row"}}>
+    <Flex paddingX={{base: "10", lg: "36"}} paddingTop={"7"} paddingBottom={"14"}  backgroundColor={"#192A39"} justifyContent="space-between" flexDirection={{base: "column", lg: "row"}}>
       <Box>
         <Text fontSize={"lg"} fontWeight={"bold"} marginBottom={"4"}>Company</Text>
         <VStack alignItems={"start"}>
