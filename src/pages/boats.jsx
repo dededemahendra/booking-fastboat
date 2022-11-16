@@ -1,10 +1,13 @@
-const BoatsPage= ()=> {
+import ListBoatHeader from "../components/ListBoatHeader";
+
+const BoatsPage = () => {
   return (
     <>
       {/* halaman search */}
-      <p>Boats</p>
-    </>
-  )
-}
 
-export default BoatsPage
+      <ListBoatHeader />
+    </>
+  );
+};
+
+export default BoatsPage;
