@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@babel/core': ^7.0.0
+  '@chakra-ui/card': ^2.1.1
   '@chakra-ui/form-control': ^2.0.12
   '@chakra-ui/icon': ^3.0.12
   '@chakra-ui/icons': ^2.0.11
@@ -33,6 +34,7 @@ specifiers:
 
 dependencies:
   '@babel/core': 7.20.2
+  '@chakra-ui/card': 2.1.1_5t7bkk6q574vskeot6qtu5gahi
   '@chakra-ui/form-control': 2.0.12_5t7bkk6q574vskeot6qtu5gahi
   '@chakra-ui/icon': 3.0.12_5t7bkk6q574vskeot6qtu5gahi
   '@chakra-ui/icons': 2.0.11_5t7bkk6q574vskeot6qtu5gahi
@@ -393,6 +395,17 @@ packages:
       '@chakra-ui/react-context': 2.0.4_react@18.2.0
       '@chakra-ui/react-use-merge-refs': 2.0.4_react@18.2.0
       '@chakra-ui/spinner': 2.0.10_5t7bkk6q574vskeot6qtu5gahi
+      '@chakra-ui/system': 2.3.1_dovxhg2tvkkxkdnqyoum6wzcxm
+      react: 18.2.0
+    dev: false
+
+  /@chakra-ui/card/2.1.1_5t7bkk6q574vskeot6qtu5gahi:
+    resolution: {integrity: sha512-vvmfuNn6gkfv6bGcXQe6kvWHspziPZgYnnffiEjPaZYtaf98WRszpjyPbFv0oQR/2H1RSE1oaTqa/J1rHrzw3A==}
+    peerDependencies:
+      '@chakra-ui/system': '>=2.0.0'
+      react: '>=18'
+    dependencies:
+      '@chakra-ui/react-context': 2.0.5_react@18.2.0
       '@chakra-ui/system': 2.3.1_dovxhg2tvkkxkdnqyoum6wzcxm
       react: 18.2.0
     dev: false

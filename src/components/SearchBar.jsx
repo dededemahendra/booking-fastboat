@@ -75,7 +75,7 @@ const SearchBar = () => {
   }, [from]);
 
   return (
-    <Flex width={{ base: "90%", lg: "60%" }} bgColor={"#021526"} marginTop={"10"} paddingX={"14"} paddingY={"7"} borderRadius={"md"} textColor={"white"} flexWrap="wrap">
+    <Flex width={{ base: "90%", lg: "60%" }} bgColor={"#021526"} marginTop={"10"} paddingX={"14"} paddingY={"7"} borderRadius={"md"} textColor={"white"} flexWrap="wrap" border="1px">
       <Box width="33.33%" borderRight={"1px solid #fff"} paddingRight={"2"}>
         <Text marginBottom={"2"} fontWeight={"bold"}>
           From
