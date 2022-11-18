@@ -23,8 +23,8 @@ const BoatCard = () => {
             <Box padding="5">
               <Flex direction="column" gap="5" justifyContent="space-around" height="200">
                 <Heading>Rp900.000</Heading>
-                <Button size="md" leftIcon={<HiOutlineCurrencyDollar />} colorScheme="blue">
-                  Choose
+                <Button size="md" leftIcon={<HiOutlineCurrencyDollar size="25" />} colorScheme="blue">
+                  <Text fontSize="20">Choose</Text>
                 </Button>
               </Flex>
             </Box>
