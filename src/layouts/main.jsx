@@ -22,7 +22,7 @@ const MainLayout= ()=> {
       <>
         <Header/>
   
-        <Box paddingTop={"90px"} minH={"100vh"} width={"full"}>
+        <Box paddingTop={"80px"} minH={"100vh"} width={"full"}>
           <Outlet/>
         </Box>
   

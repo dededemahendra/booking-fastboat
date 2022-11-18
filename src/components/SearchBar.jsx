@@ -4,6 +4,7 @@ import { useNavigate, createSearchParams } from "react-router-dom";
 import moment from "moment";
 import { useEffect } from "react";
 import { Box, Flex, Button, useColorMode, Input, Checkbox, useToast, Select, Text } from "@chakra-ui/react";
+import axios from "./../utils/axios";
 
 const SearchBar = () => {
   const { colorMode } = useColorMode();
@@ -11,21 +12,28 @@ const SearchBar = () => {
   const isDark = colorMode == "dark";
   const toast = useToast();
 
-  const availableHarbors = ["Lembongan Island", "Nusa Penida", "Sanur"];
-  const [availableDestinationHarbors, setAvailableDestinationHarbors] = useState(availableHarbors);
+  const [availableHarbours, setAvailableHarbours] = useState([])
+  const [availableDestinationHarbors, setAvailableDestinationHarbors] = useState([]);
 
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [nationality, setNationality] = useState("");
   const [departureDate, setDepartureDate] = useState(moment().format("yyyy-M-DD"));
-  const [returnDate, setReturnDate] = useState(moment().format("yyyy-MM-DD"));
+  const [returnDate, setReturnDate] = useState(departureDate);
   const [isReturnChecked, setIsReturnCheked] = useState(false);
   const [passenger, setPassenger] = useState(1);
 
-  useEffect(() => {
-    setAvailableDestinationHarbors(availableHarbors.filter((v) => v != from));
-    // setFrom("")
-  }, [from]);
+  async function getAvailableBoats() {
+    try {
+      const {data}= await axios.get("/api?apicall=loadtrip")
+
+      const harbour= data.map(v=> v.rute)
+
+      setAvailableHarbours(harbour)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   function searchBoats() {
     if (!from || !to || !nationality) {
@@ -57,6 +65,15 @@ const SearchBar = () => {
     });
   }
 
+  useEffect(()=> {
+    getAvailableBoats()
+  }, [])
+
+  useEffect(() => {
+    setAvailableDestinationHarbors(availableHarbours.filter((v) => v != from));
+    // setFrom("")
+  }, [from]);
+
   return (
     <Flex width={{ base: "90%", lg: "60%" }} bgColor={"#021526"} marginTop={"10"} paddingX={"14"} paddingY={"7"} borderRadius={"md"} textColor={"white"} flexWrap="wrap">
       <Box width="33.33%" borderRight={"1px solid #fff"} paddingRight={"2"}>
@@ -64,7 +81,7 @@ const SearchBar = () => {
           From
         </Text>
         <Select variant={"unstyled"} width={"fit-content"} placeholder="Choose Departure Harbour" color="#fff" onChange={(e) => setFrom(e.target.value)}>
-          {availableHarbors.map((v, k) => (
+          {availableHarbours.map((v, k) => (
             <option value={v} key={k}>
               {v}
             </option>
