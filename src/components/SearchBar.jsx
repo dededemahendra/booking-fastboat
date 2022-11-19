@@ -3,14 +3,15 @@ import { useState } from "react";
 import { useNavigate, createSearchParams } from "react-router-dom";
 import moment from "moment";
 import { useEffect } from "react";
-import { Box, Flex, Button, useColorMode, Input, Checkbox, useToast, Select, Text } from "@chakra-ui/react";
+import { Box, Flex, Button, Input, Checkbox, useToast, Select, Text } from "@chakra-ui/react";
 import axios from "./../utils/axios";
+import querystring from 'query-string'
 
-const SearchBar = () => {
-  const { colorMode } = useColorMode();
-  const navigate = useNavigate();
-  const isDark = colorMode == "dark";
-  const toast = useToast();
+const SearchBar = (props) => {
+  const {getSearchParams= false}= props
+  const navigate = useNavigate()
+  const toast = useToast()
+  const searchParams= querystring.parse(location.search)
 
   const [availableHarbours, setAvailableHarbours] = useState([])
   const [availableDestinationHarbors, setAvailableDestinationHarbors] = useState([]);
@@ -30,6 +31,7 @@ const SearchBar = () => {
       const harbour= data.map(v=> v.rute)
 
       setAvailableHarbours(harbour)
+      setAvailableDestinationHarbors(harbour)
     } catch (error) {
       console.log(error)
     }
@@ -66,12 +68,26 @@ const SearchBar = () => {
   }
 
   useEffect(()=> {
-    getAvailableBoats()
+    (async _=> {
+      await getAvailableBoats()
+  
+      if (getSearchParams) {
+        setFrom(searchParams.from)
+        setTo(searchParams.to)
+        setNationality(searchParams.nationality)
+        setDepartureDate(searchParams.departure)
+
+        if (searchParams.returnDate) {
+          setIsReturnCheked(true)
+          setReturnDate(searchParams.returnDate)
+        }
+        setPassenger(searchParams.passenger)
+      }
+    })()
   }, [])
 
   useEffect(() => {
     setAvailableDestinationHarbors(availableHarbours.filter((v) => v != from));
-    // setFrom("")
   }, [from]);
 
   return (
@@ -80,7 +96,7 @@ const SearchBar = () => {
         <Text marginBottom={"2"} fontWeight={"bold"}>
           From
         </Text>
-        <Select variant={"unstyled"} width={"fit-content"} placeholder="Choose Departure Harbour" color="#fff" onChange={(e) => setFrom(e.target.value)}>
+        <Select variant={"unstyled"} width={"fit-content"} placeholder="Choose Departure Harbour" color="#fff" value={from} onChange={(e) => setFrom(e.target.value)}>
           {availableHarbours.map((v, k) => (
             <option value={v} key={k}>
               {v}
@@ -93,7 +109,7 @@ const SearchBar = () => {
         <Text marginBottom={"2"} fontWeight={"bold"}>
           To
         </Text>
-        <Select color="#fff" variant={"unstyled"} width={"fit-content"} onChange={(e) => setTo(e.target.value)}>
+        <Select color="#fff" variant={"unstyled"} width={"fit-content"} value={to} onChange={(e) => setTo(e.target.value)}>
           <option value="">Choose Destination</option>
           {availableDestinationHarbors.map((v, k) => (
             <option value={v} key={k}>
@@ -107,9 +123,9 @@ const SearchBar = () => {
         <Text marginBottom={"2"} fontWeight={"bold"}>
           Nationality
         </Text>
-        <Select color="#fff" placeholder="Select Nationality" variant={"unstyled"} onChange={(e) => setNationality(e.target.value)}>
+        <Select color="#fff" placeholder="Select Nationality" variant={"unstyled"} value={nationality} onChange={(e) => setNationality(e.target.value)}>
           <option value="indonesian">Indonesian</option>
-          <option value="forigner">Foreigner</option>
+          <option value="foreigner">Foreigner</option>
         </Select>
       </Box>
 
@@ -125,14 +141,14 @@ const SearchBar = () => {
           Return
         </Text>
         {isReturnChecked && <Input marginRight="3" type="date" variant="unstyled" value={returnDate} min={returnDate} width="fit-content" onInput={(e) => setReturnDate(e.target.value)} />}
-        <Checkbox onChange={(e) => setIsReturnCheked(e.target.checked)}>Return</Checkbox>
+        <Checkbox isChecked={isReturnChecked} onChange={(e) => setIsReturnCheked(e.target.checked)}>Return</Checkbox>
       </Box>
 
       <Box width="33.33%" marginTop={"6"} paddingRight={"2"} paddingLeft={"5"}>
         <Text marginBottom={"2"} fontWeight={"bold"}>
           Passenger
         </Text>
-        <Select color="#fff" variant={"unstyled"} onChange={(e) => setPassenger(e.target.value)}>
+        <Select color="#fff" variant={"unstyled"} value={passenger} onChange={(e) => setPassenger(e.target.value)}>
           {[...Array(10)].map((_, k) => (
             <option value={k + 1} key={k}>
               {k + 1} Person

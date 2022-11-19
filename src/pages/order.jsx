@@ -7,18 +7,33 @@ import FormikErrorFocus from "formik-error-focus"
 import * as yup from 'yup'
 import { useNavigate } from 'react-router-dom'
 
+const initialValues= {
+  firstName: "",
+  lastName: "",
+  email: "",
+  country: "",
+  phone: ""
+}
+
+const validationSchema= yup.object().shape({
+  firstName: yup.string().required("First Name is Required."),
+  lastName: yup.string().required("Last Name is Required."),
+  email: yup.string().email().required(),
+  country: yup.string().required(),
+  phone: yup.string().required(),
+})
+
 const FormSection= (props)=> {
   const {label, name, type="text", setFieldValue}= props
 
   const options= [
     {
-      label: "I am red",
-      value: "i-am-red",
-      colorScheme: "red"
+      label: "Indonesian",
+      value: "indonesian",
     },
     {
-      label: "I fallback to purple",
-      value: "i-am-purple",
+      label: "Foreigner",
+      value: "foreigner",
     },
   ]
 
@@ -26,7 +41,7 @@ const FormSection= (props)=> {
     <FormControl paddingX="4" color="white">
       <FormLabel>{label}</FormLabel>
       {type=="select"?
-        <Select placeholder="test123" name={name} options={options} onChange={e=> setFieldValue(name, e.value)}  bg="tomato" selectedOptionStyle="check" />
+        <Select placeholder="Select Your Nationality" name={name} options={options} onChange={e=> setFieldValue(name, e.value)}  bg="tomato" selectedOptionStyle="check" />
         :<Field as={Input} name={name} type={type} options={options} height="9" variant="filled" size="md" outlineColor="gray" />
       }
       <ErrorMessage marginTop="2" color="red" name={name} component={Text}   />
@@ -37,26 +52,10 @@ const FormSection= (props)=> {
 const CheckoutButton= (props)=> {
   const { text, background, onClick }= props
 
-  return <Button onClick={onClick} color="#fff" variant="solid" bgColor={background} width="fit-content" marginX="auto" paddingX="7" paddingY="5" _hover={{bgColor: "whatsapp.600"}}>{text}</Button>
+  return <Button onClick={onClick} color="#fff" variant="solid" bgColor={background} width="fit-content" marginX="auto" paddingX="7" paddingY="5" _hover={{bgColor: "whatsapp.700"}}>{text}</Button>
 }
 
 const OrderPage= ()=> {
-  const initialValues= {
-    firstName: "",
-    lastName: "",
-    email: "",
-    country: "",
-    phone: ""
-  }
-
-  const validationSchema= yup.object().shape({
-    firstName: yup.string().required("First Name is Required."),
-    lastName: yup.string().required("Last Name is Required."),
-    email: yup.string().email().required(),
-    country: yup.string().required(),
-    phone: yup.string().required(),
-  })
-
   const [passenger, setPassenger]= useState(1)
 
   const navigate= useNavigate()
@@ -126,63 +125,17 @@ const OrderPage= ()=> {
             <Flex marginTop="8" justifyContent="space-between" alignItems="center" textAlign="center" textColor="#979EA6">
               <Box>
                 <Text>Bali</Text>
-                <Text>Sun, November 27 2022</Text>
+                <Text color="white">Sun, November 27 2022</Text>
               </Box>
 
               <Box alignSelf="flex-end" width="32">
                 <hr />
-                <Text marginTop="1" fontSize="lg" color="white">6 : 40</Text>
+                <Text marginTop="1" fontSize="lg" color="white" fontWeight="bold">6 : 40</Text>
               </Box>
 
               <Box>
                 <Text>Bali</Text>
-                <Text>Sun, November 27 2022</Text>
-              </Box>
-            </Flex>
-
-            <Grid textColor="#979EA6" marginTop="5" marginX="auto" templateColumns="repeat(2, 1fr)" columnGap="16" rowGap="3">
-              <GridItem>Ticket Fee</GridItem>
-              <GridItem>IDR 100.000</GridItem>
-
-              <GridItem>Total</GridItem>
-              <GridItem fontWeight="bold" color="white">IDR 100.000</GridItem>
-            </Grid>
-
-          </Flex>
-
-          <Flex flexDirection="column" bgColor="#032340" paddingY="12" paddingX="10" borderRadius="md" marginBottom="7">
-            <Flex flexDirection={["column", "row"]} w="full" spacing="10" alignItems="center">
-              <Image src="boats.jpeg" width="50%" marginRight="10" />
-              
-              <VStack color="white" spacing="6">
-                <Heading size="md">Fast Boat 1</Heading>
-                <HStack>
-                  <Text>Passenger</Text>
-                  <Sel width="24" onChange={e=> setPassenger(e.target.value)} value={passenger}>
-                    {
-                      [...Array(10)].map((_, k)=> (
-                        <option value={k+1} key={k}>{k+1}</option>
-                      ))
-                    }
-                  </Sel>
-                </HStack>
-              </VStack>
-            </Flex>
-
-            <Flex marginTop="8" justifyContent="space-between" alignItems="center" textAlign="center" textColor="#979EA6">
-              <Box>
-                <Text>Bali</Text>
-                <Text>Sun, November 27 2022</Text>
-              </Box>
-
-              <Box alignSelf="flex-end" width="32">
-                <hr />
-                <Text marginTop="1" fontSize="lg" color="white">6 : 40</Text>
-              </Box>
-
-              <Box>
-                <Text>Bali</Text>
-                <Text>Sun, November 27 2022</Text>
+                <Text color="white">Sun, November 27 2022</Text>
               </Box>
             </Flex>
 
@@ -202,7 +155,7 @@ const OrderPage= ()=> {
               <Text color="white" fontSize="xl" fontWeight="bold">IDR 350.000</Text>
 
               <CheckoutButton onClick={()=> navigate(-1)} text="Book Other Trip." background="#4A60A1"  />
-              <CheckoutButton onClick={()=> btnSubmit.current.click()} text="Checkout" background="whatsapp.400"  />
+              <CheckoutButton onClick={()=> btnSubmit.current.click()} text="Checkout" background="whatsapp.600"  />
             </Grid>
           </Flex>
 

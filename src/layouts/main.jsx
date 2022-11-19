@@ -3,6 +3,7 @@ import { Box, Image, Flex } from '@chakra-ui/react'
 import { useState, useEffect } from "react"
 import Header from "./../components/Header"
 import Footer from "./../components/Footer"
+import { ScrollRestoration } from "react-router-dom"
 
 const MainLayout= ()=> {
   const [isLoading, setIsLoading]= useState(true)
@@ -20,6 +21,7 @@ const MainLayout= ()=> {
   } else {
     return (
       <>
+        <ScrollRestoration/>
         <Header/>
   
         <Box paddingTop={"80px"} minH={"100vh"} width={"full"}>

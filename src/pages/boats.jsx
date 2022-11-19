@@ -7,7 +7,7 @@ const BoatsPage = () => {
     <>
       {/* halaman search */}
       <Flex alignItems={"center"} justifyContent={"center"}>
-        <SearchBar />
+        <SearchBar getSearchParams={true} />
       </Flex>
       <ListBoatHeader />
     </>
