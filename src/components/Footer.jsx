@@ -1,14 +1,22 @@
-import {Grid, Heading, Text, Box, VStack, Flex} from '@chakra-ui/react'
+import { Grid, Heading, Text, Box, VStack, Flex } from "@chakra-ui/react";
 
-function DefaultText({children}) {
-  return <Text color="gray">{children}</Text>
+function DefaultText({ children }) {
+  return <Text color="gray">{children}</Text>;
 }
 
-const Footer= ()=> {
+const Footer = () => {
   return (
-    <Flex paddingX={{base: "10", lg: "36"}} pt={"7"} pb={"14"} mt="20"  backgroundColor={"#192A39"} justifyContent="space-between" flexDirection={{base: "column", lg: "row"}}>
+    <Flex paddingX={{ base: "10", lg: "36" }} paddingTop={"7"} paddingBottom={"14"} backgroundColor={"#192A39"} justifyContent="space-between" flexDirection={{ base: "column", lg: "row" }} mt="10">
+      <Flex alignItems="center" direction={"column"} gap={"10"}>
+        <Text fontFamily="Sanchez" fontSize="3xl">
+          Fast Boat To Paradise
+        </Text>
+        <Text>Copright &copy; 2022 C22-033 Company</Text>
+      </Flex>
       <Box>
-        <Text fontSize={"lg"} fontWeight={"bold"} marginBottom={"4"}>Company</Text>
+        <Text fontSize={"lg"} fontWeight={"bold"} marginBottom={"4"}>
+          Company
+        </Text>
         <VStack alignItems={"start"}>
           <DefaultText>About us</DefaultText>
           <DefaultText>Why Book Through us</DefaultText>
@@ -17,7 +25,9 @@ const Footer= ()=> {
       </Box>
 
       <Box>
-        <Text fontSize={"lg"} fontWeight={"bold"} marginBottom={"4"}>Resources</Text>
+        <Text fontSize={"lg"} fontWeight={"bold"} marginBottom={"4"}>
+          Resources
+        </Text>
         <VStack alignItems={"start"}>
           <DefaultText>Privacy Policy</DefaultText>
           <DefaultText>Terms and Condition</DefaultText>
@@ -26,7 +36,9 @@ const Footer= ()=> {
       </Box>
 
       <Box paddingRight="3">
-        <Text fontSize={"lg"} fontWeight={"bold"} marginBottom={"4"}>Company</Text>
+        <Text fontSize={"lg"} fontWeight={"bold"} marginBottom={"4"}>
+          Company
+        </Text>
         <VStack alignItems={"start"}>
           <DefaultText>Jl. Hangtuah no. 22 Sanur - Bali - Indonesia</DefaultText>
           <DefaultText>+62-812-3922-7479/+62-821-1005-9178</DefaultText>
@@ -34,13 +46,8 @@ const Footer= ()=> {
           <DefaultText>reservation@fastboattoparadise.com</DefaultText>
         </VStack>
       </Box>
-
-      <Flex alignItems="center">
-       <Text fontFamily="Sanchez" fontSize="3xl">Fast Boat To Paradise</Text>
-      </Flex>
-
     </Flex>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;

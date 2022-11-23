@@ -22,7 +22,7 @@ const SearchBar = (props) => {
   const toast = useToast()
   const searchParams= querystring.parse(location.search)
 
-  const [availableHarbours, setAvailableHarbours] = useState([])
+  const [availableHarbours, setAvailableHarbours] = useState([]);
   const [availableDestinationHarbors, setAvailableDestinationHarbors] = useState([]);
 
   const [from, setFrom] = useState("");
@@ -34,14 +34,14 @@ const SearchBar = (props) => {
 
   async function getAvailableBoats() {
     try {
-      const {data}= await axios.get("/api?apicall=loadtrip")
+      const { data } = await axios.get("/api?apicall=loadtrip");
 
-      const harbour= data.map(v=> v.rute)
+      const harbour = data.map((v) => v.rute);
 
-      setAvailableHarbours(harbour)
+      setAvailableHarbours(harbour);
       setAvailableDestinationHarbors(harbour)
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 
@@ -75,24 +75,7 @@ const SearchBar = (props) => {
   }
 
   useEffect(()=> {
-    (async _=> {
-      await getAvailableBoats()
-  
-      if (getSearchParams) {
-        const {from, to, departure, passenger, returnDate}= searchParams
-
-        setFrom(from)
-        setTo(to)
-        setDepartureDate(departure)
-
-        if (returnDate) {
-          setIsReturnCheked(true)
-          setReturnDate(returnDate)
-        }
-        
-        setPassenger(passenger)
-      }
-    })()
+    getAvailableBoats()
   }, [])
 
   useEffect(() => {
