@@ -7,6 +7,15 @@ import { Box, Flex, Button, Input, Checkbox, useToast, Select, Text } from "@cha
 import axios from "./../utils/axios";
 import querystring from 'query-string'
 
+function FormControl({title, children, showBorder= false}) {
+  return (
+    <Box width={["full", "33.33%"]} borderRight={showBorder?["", "1px solid #fff"]:""} px="4" mb="4">
+      <Text marginBottom={"2"} fontWeight={"bold"}>{title}</Text>
+      {children}
+    </Box>
+  )
+}
+
 const SearchBar = (props) => {
   const {getSearchParams= false}= props
   const navigate = useNavigate()
@@ -18,7 +27,6 @@ const SearchBar = (props) => {
 
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
-  const [nationality, setNationality] = useState("");
   const [departureDate, setDepartureDate] = useState(moment().format("yyyy-M-DD"));
   const [returnDate, setReturnDate] = useState(departureDate);
   const [isReturnChecked, setIsReturnCheked] = useState(false);
@@ -38,10 +46,10 @@ const SearchBar = (props) => {
   }
 
   function searchBoats() {
-    if (!from || !to || !nationality) {
+    if (!from || !to) {
       return toast({
         title: "Warning",
-        description: `Please select ${!from || !to ? "boat" : "nationality"}.`,
+        description: `Please select boat.`,
         status: "warning",
         duration: 2000,
         isClosable: true,
@@ -52,7 +60,6 @@ const SearchBar = (props) => {
     const searchParams = {
       from,
       to,
-      nationality,
       departure: departureDate,
       passenger,
     };
@@ -72,16 +79,18 @@ const SearchBar = (props) => {
       await getAvailableBoats()
   
       if (getSearchParams) {
-        setFrom(searchParams.from)
-        setTo(searchParams.to)
-        setNationality(searchParams.nationality)
-        setDepartureDate(searchParams.departure)
+        const {from, to, departure, passenger, returnDate}= searchParams
 
-        if (searchParams.returnDate) {
+        setFrom(from)
+        setTo(to)
+        setDepartureDate(departure)
+
+        if (returnDate) {
           setIsReturnCheked(true)
-          setReturnDate(searchParams.returnDate)
+          setReturnDate(returnDate)
         }
-        setPassenger(searchParams.passenger)
+        
+        setPassenger(passenger)
       }
     })()
   }, [])
@@ -91,11 +100,9 @@ const SearchBar = (props) => {
   }, [from]);
 
   return (
-    <Flex width={{ base: "90%", lg: "60%" }} bgColor={"#021526"} marginTop={"10"} paddingX={"14"} paddingY={"7"} borderRadius={"md"} textColor={"white"} flexWrap="wrap" border="1px">
-      <Box width="33.33%" borderRight={"1px solid #fff"} paddingRight={"2"}>
-        <Text marginBottom={"2"} fontWeight={"bold"}>
-          From
-        </Text>
+    <Flex width={{ base: "90%", lg: "60%" }} bgColor={"#021526"} mt={"10"} px={"14"} paddingY={"7"} borderRadius={"md"} textColor={"white"} flexWrap="wrap" border="1px" direction={["column", "row"]}>
+
+      <FormControl title="from" showBorder={true}>
         <Select variant={"unstyled"} width={"fit-content"} placeholder="Choose Departure Harbour" color="#fff" value={from} onChange={(e) => setFrom(e.target.value)}>
           {availableHarbours.map((v, k) => (
             <option value={v} key={k}>
@@ -103,12 +110,9 @@ const SearchBar = (props) => {
             </option>
           ))}
         </Select>
-      </Box>
+      </FormControl>
 
-      <Box width="33.33%" borderRight={"1px solid #fff"} paddingRight={"2"} paddingLeft={"5"}>
-        <Text marginBottom={"2"} fontWeight={"bold"}>
-          To
-        </Text>
+      <FormControl title="To" showBorder={true}>
         <Select color="#fff" variant={"unstyled"} width={"fit-content"} value={to} onChange={(e) => setTo(e.target.value)}>
           <option value="">Choose Destination</option>
           {availableDestinationHarbors.map((v, k) => (
@@ -117,51 +121,36 @@ const SearchBar = (props) => {
             </option>
           ))}
         </Select>
-      </Box>
+      </FormControl>
 
-      <Box width="33.33%" paddingRight={"2"} paddingLeft={"5"}>
-        <Text marginBottom={"2"} fontWeight={"bold"}>
-          Nationality
-        </Text>
-        <Select color="#fff" placeholder="Select Nationality" variant={"unstyled"} value={nationality} onChange={(e) => setNationality(e.target.value)}>
-          <option value="indonesian">Indonesian</option>
-          <option value="foreigner">Foreigner</option>
-        </Select>
-      </Box>
+      <FormControl title="Passenger">
+          <Select color="#fff" variant={"unstyled"} value={passenger} onChange={(e) => setPassenger(e.target.value)}>
+            {[...Array(10)].map((_, k) => (
+              <option value={k + 1} key={k}>
+                {k + 1} Person
+              </option>
+            ))}
+          </Select> 
+      </FormControl>
 
-      <Box width="33.33%" marginTop={"6"} borderRight={"1px solid #fff"} paddingRight={"2"}>
-        <Text marginBottom={"2"} fontWeight={"bold"}>
-          Departure
-        </Text>
+      <FormControl showBorder={true} title="Departure">
         <Input type="date" variant="unstyled" value={departureDate} min={departureDate} width="fit-content" onInput={(e) => setDepartureDate(e.target.value)} />
-      </Box>
+      </FormControl>
 
-      <Box width="33.33%" marginTop={"6"} borderRight={"1px solid #fff"} paddingRight={"2"} paddingLeft={"5"}>
+      <FormControl showBorder={true}>
         <Text marginBottom={"2"} fontWeight={"bold"}>
           Return
         </Text>
         {isReturnChecked && <Input marginRight="3" type="date" variant="unstyled" value={returnDate} min={returnDate} width="fit-content" onInput={(e) => setReturnDate(e.target.value)} />}
         <Checkbox isChecked={isReturnChecked} onChange={(e) => setIsReturnCheked(e.target.checked)}>Return</Checkbox>
-      </Box>
+      </FormControl>
 
-      <Box width="33.33%" marginTop={"6"} paddingRight={"2"} paddingLeft={"5"}>
-        <Text marginBottom={"2"} fontWeight={"bold"}>
-          Passenger
-        </Text>
-        <Select color="#fff" variant={"unstyled"} value={passenger} onChange={(e) => setPassenger(e.target.value)}>
-          {[...Array(10)].map((_, k) => (
-            <option value={k + 1} key={k}>
-              {k + 1} Person
-            </option>
-          ))}
-        </Select>
-      </Box>
+      <FormControl>
+       <Flex align="center" justify="center" h="full">
+        <Button bgColor="#4A60A1" width="36" onClick={() => searchBoats()}> Search </Button>
+       </Flex>
+      </FormControl>
 
-      <Flex width="100%" alignItems="center" justifyContent="center" marginTop={"6"} paddingTop={"3"} paddingLeft={"5"} gridColumn={"span 3"}>
-        <Button bgColor="#4A60A1" width="32" onClick={() => searchBoats()}>
-          Search
-        </Button>
-      </Flex>
     </Flex>
   );
 };

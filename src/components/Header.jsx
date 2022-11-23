@@ -10,9 +10,9 @@ const Header = () => {
   return (
     <Flex justify="space-between" alignItems="center" paddingX={"10"} height="80px" bgColor={"gray"} position="fixed" width={"full"} zIndex="100" backgroundColor={"#021528"} boxShadow={"1px 1px 5px #000"} textColor="white">
       <Link to="/">
-        {/* <Image src="logo.png" w="60" /> */}
+        <Image src="logoTulisan.png" w="64" />
 
-        <Text fontFamily="roboto">Fast Boat To Paradise</Text>
+        {/* <Text fontFamily="roboto">Fast Boat To Paradise</Text> */}
       </Link>
 
       <Stack display={{ base: "none", lg: "flex" }} direction="row" spacing="5" align="center">

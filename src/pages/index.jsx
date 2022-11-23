@@ -10,9 +10,9 @@ const HomePage= ()=> {
         <Heading fontSize="3xl">Destination</Heading>
         <Text marginTop="3" marginBottom="6">Boat Destination</Text>
 
-        <Grid templateColumns={{base: "1fr", lg: "repeat(3, 1fr)"}} columnGap="7">
+        <Grid templateColumns={{base: "1fr", lg: "repeat(2, 1fr)"}} gap="10">
           {
-            [...Array(3)].map((_, k)=> (
+            [...Array(4)].map((_, k)=> (
               <Box position="relative" key={k}>
                 <Image src="boat_bridge.jpeg" />
 
@@ -26,7 +26,8 @@ const HomePage= ()=> {
         </Grid>
       </Box>
 
-      <Box textAlign={"center"} marginTop="16" paddingBottom="20">
+      <Box textAlign={"center"} marginTop="16">
+        {/* TODO bnerin testimoni */}
         <Heading fontSize="2xl" marginBottom="16">Testimoni</Heading>
 
         <Grid templateColumns={{base: "repeat(2, 1fr)", lg: "repeat(4, 1fr)"}} paddingX={{base: "10", lg: "28"}} columnGap="5">

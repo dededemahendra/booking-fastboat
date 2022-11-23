@@ -68,7 +68,7 @@ const OrderPage= ()=> {
 
   return (
     <>
-      <Flex paddingX={["8", "20"]} paddingY="10" flexDirection={["column", "row"]} textColor="black">
+      <Flex paddingX={["8", "20"]} pt="10" flexDirection={["column", "row"]} textColor="black">
 
         <Box width={["full", "35%"]} marginRight="16" marginBottom={["5", "0"]} position="sticky" height="full">
           <Heading size={"lg"} color="white" marginBottom="5">Booked By</Heading>
