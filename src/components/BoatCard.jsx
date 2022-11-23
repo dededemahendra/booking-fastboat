@@ -12,8 +12,11 @@ const BoatCard = () => {
           <Flex gap="10" justifyContent="space-between" alignItems="center">
             <Image src="https://i0.wp.com/girleatworld.net/wp-content/uploads/2018/04/nusa-penida-kelingking-1.jpg?resize=840%2C670&ssl=1" alt="Nusa Penida" maxW="300" rounded="5" />
             <Box>
-              <Flex direction="column" height="200" justifyContent="space-around" alignItems="center">
-                <Heading>KMP Sambo X</Heading>
+              <Flex direction="column" height="200" justifyContent="space-around">
+                <Box>
+                  <Heading>KMP Sambo X</Heading>
+                  <Text>Available Seat: 80</Text>
+                </Box>
                 <Box>
                   <Text fontSize="xl">Sanur Harbour - Banjar Nyuh</Text>
                   <Text fontSize="xl">07.00 - 07.45 (Local Time)</Text>

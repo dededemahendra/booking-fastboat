@@ -12,7 +12,7 @@ const SearchBar = () => {
   const isDark = colorMode == "dark";
   const toast = useToast();
 
-  const [availableHarbours, setAvailableHarbours] = useState([])
+  const [availableHarbours, setAvailableHarbours] = useState([]);
   const [availableDestinationHarbors, setAvailableDestinationHarbors] = useState([]);
 
   const [from, setFrom] = useState("");
@@ -25,13 +25,13 @@ const SearchBar = () => {
 
   async function getAvailableBoats() {
     try {
-      const {data}= await axios.get("/api?apicall=loadtrip")
+      const { data } = await axios.get("/api?apicall=loadtrip");
 
-      const harbour= data.map(v=> v.rute)
+      const harbour = data.map((v) => v.rute);
 
-      setAvailableHarbours(harbour)
+      setAvailableHarbours(harbour);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 
@@ -65,9 +65,9 @@ const SearchBar = () => {
     });
   }
 
-  useEffect(()=> {
-    getAvailableBoats()
-  }, [])
+  useEffect(() => {
+    getAvailableBoats();
+  }, []);
 
   useEffect(() => {
     setAvailableDestinationHarbors(availableHarbours.filter((v) => v != from));
