@@ -7,16 +7,12 @@ import { Box, Flex, Button, Input, Checkbox, useToast, Select, Text } from "@cha
 import axios from "./../utils/axios";
 import querystring from 'query-string'
 
-function FormControl(props) {
-  const {title, children, showBorder= false}= props
-
+function FormControl({title, children, showBorder= false}) {
   return (
-    <Flex width={["full", "33.33%"]} borderRight={showBorder?["", "1px solid #fff"]:""} px="4" mb="4" align="center">
-      <Box>
-        <Text marginBottom={"2"} fontWeight={"bold"}>{title}</Text>
-        {children}
-      </Box>
-    </Flex>
+    <Box width={["full", "33.33%"]} borderRight={showBorder?["", "1px solid #fff"]:""} px="4" mb="4">
+      <Text marginBottom={"2"} fontWeight={"bold"}>{title}</Text>
+      {children}
+    </Box>
   )
 }
 
@@ -80,20 +76,6 @@ const SearchBar = (props) => {
 
   useEffect(()=> {
     getAvailableBoats()
-
-    if (getSearchParams) {
-      const { from, to, departure, returnDate, passenger }= searchParams
-
-      if (returnDate) {
-        setReturnDate(returnDate)
-        setIsReturnCheked(true)
-      }
-
-      setFrom(from)
-      setTo(to)
-      setDepartureDate(departure)
-      setPassenger(passenger)
-    }
   }, [])
 
   useEffect(() => {
@@ -101,7 +83,7 @@ const SearchBar = (props) => {
   }, [from]);
 
   return (
-    <Flex width={{ base: "90%", lg: "80%" }} bgColor={"#021526"} mt={"10"} px={"14"} paddingY={"7"} borderRadius={"md"} textColor={"white"} flexWrap="wrap" border="1px" direction={["column", "row"]}>
+    <Flex width={{ base: "90%", lg: "60%" }} bgColor={"#021526"} mt={"10"} px={"14"} paddingY={"7"} borderRadius={"md"} textColor={"white"} flexWrap="wrap" border="1px" direction={["column", "row"]}>
 
       <FormControl title="from" showBorder={true}>
         <Select variant={"unstyled"} width={"fit-content"} placeholder="Choose Departure Harbour" color="#fff" value={from} onChange={(e) => setFrom(e.target.value)}>
@@ -113,7 +95,7 @@ const SearchBar = (props) => {
         </Select>
       </FormControl>
 
-      <FormControl title="To" showBorder={true} >
+      <FormControl title="To" showBorder={true}>
         <Select color="#fff" variant={"unstyled"} width={"fit-content"} value={to} onChange={(e) => setTo(e.target.value)}>
           <option value="">Choose Destination</option>
           {availableDestinationHarbors.map((v, k) => (
@@ -125,7 +107,7 @@ const SearchBar = (props) => {
       </FormControl>
 
       <FormControl title="Passenger">
-          <Select w="fit-content" color="#fff" variant={"unstyled"} value={passenger} onChange={(e) => setPassenger(e.target.value)}>
+          <Select color="#fff" variant={"unstyled"} value={passenger} onChange={(e) => setPassenger(e.target.value)}>
             {[...Array(10)].map((_, k) => (
               <option value={k + 1} key={k}>
                 {k + 1} Person

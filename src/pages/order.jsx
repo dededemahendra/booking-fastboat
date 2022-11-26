@@ -64,7 +64,6 @@ const OrderPage= ()=> {
 
   function formSubmit(values) {
     console.log(values);
-    navigate("/order_detail")
   }
 
   return (

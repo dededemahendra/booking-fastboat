@@ -1,26 +1,24 @@
 import {Box, Heading, Text, Grid, Flex, Image} from '@chakra-ui/react'
 import Banner from '../components/Banner'
-import ChakraCarousel from '../components/ChakraCarousel'
 
 const HomePage= ()=> {
   return (
     <>
       <Banner />
 
-      <Box textAlign={"center"} marginTop={"10"} paddingX={["10", "32", "40"]}>
+      <Box textAlign={"center"} marginTop={"10"} paddingX="16">
         <Heading fontSize="3xl">Destination</Heading>
         <Text marginTop="3" marginBottom="6">Boat Destination</Text>
 
-        <Grid templateColumns={{base: "1fr", lg: "repeat(2, 1fr)"}} gap={["10", "14"]}>
+        <Grid templateColumns={{base: "1fr", lg: "repeat(2, 1fr)"}} gap="10">
           {
             [...Array(4)].map((_, k)=> (
               <Box position="relative" key={k}>
-                <Box p="4" border="1px solid #BFA888">
-                  <Box p="6" border="1px solid #fff" textAlign="left" pb="10">
-                    <Image src="boat_bridge.jpeg" h="56" w="full" objectFit="cover" mx="auto" mb="8" />
-                    <Heading marginBottom="4" fontSize="2xl">Lembongan Island</Heading>
-                    <Text fontSize="sm">Lembongan Island Nusa Lembongan is a small holiday island destination 20 km off the southeast coast of Bali. You can reach it with a 45-minute boat ride from Sanur Beach or Benoa Harbour. It’s a lot quieter than the south of Bali, making it a great place to go for a quiet, relaxing break.</Text>
-                  </Box>
+                <Image src="boat_bridge.jpeg" />
+
+                <Box marginX="auto" marginTop="-20" width="90%" backgroundColor="gray" borderRadius="md" textAlign="left" padding="8" minH="52" zIndex="2" position="relative">
+                  <Heading marginBottom="2" fontSize="xl">Lembongan Island</Heading>
+                  <Text fontSize="sm">Lembongan Island Nusa Lembongan is a small holiday island destination 20 km off the southeast coast of Bali. You can reach it with a 45-minute boat ride from Sanur Beach or Benoa Harbour. It’s a lot quieter than the south of Bali, making it a great place to go for a quiet, relaxing break.</Text>
                 </Box>
               </Box>
             ))
@@ -28,22 +26,25 @@ const HomePage= ()=> {
         </Grid>
       </Box>
 
-      <Flex textAlign={"center"} marginTop="16" justify="center" alignItems="center" direction="column">
+      <Box textAlign={"center"} marginTop="16">
+        {/* TODO bnerin testimoni */}
         <Heading fontSize="2xl" marginBottom="16">Testimoni</Heading>
 
-        <Box w="50%" border="1px solid #fff" px="10" py="5">
-          <ChakraCarousel gap={0} >
-            {
-              [...Array(4)].map((_, k)=> (
-                <Flex key={k} w="full" p="5" alignItems="center" justifyContent="center" bg="red">
-                  <p>test</p>
-                </Flex>
-              ))
-            }
-          </ChakraCarousel>
-        </Box>
-      </Flex>
-      
+        <Grid templateColumns={{base: "repeat(2, 1fr)", lg: "repeat(4, 1fr)"}} paddingX={{base: "10", lg: "28"}} columnGap="5">
+          {
+            [...Array(4)].map((_, k)=> (
+              <Flex key={k} backgroundColor="red" marginBottom={"5"} textAlign="left" >
+                <Image src="https://images.unsplash.com/photo-1547256398-b62fc7852828?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE1fHx8ZW58MHx8fHw%3D&w=1000&q=80" width="50%" objectFit="cover" bgPosition="bottom" />
+
+                <Box paddingTop="5" paddingX="4">
+                  <Text fontSize="sm">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore possimus officia tempora facilis omnis, optio rerum ratione voluptatibus perspiciatis adipisci aliquam itaque sint praesentium at libero enim, est modi excepturi?</Text>
+                </Box>
+              </Flex>
+            ))
+          }
+        </Grid>
+      </Box>
+
     </>
   )
 }

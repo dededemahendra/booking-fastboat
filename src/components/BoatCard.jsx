@@ -3,12 +3,13 @@ import { Card, CardBody, CardFooter } from "@chakra-ui/card";
 import { Button } from "@chakra-ui/button";
 import { Image } from "@chakra-ui/image";
 import { HiOutlineCurrencyDollar } from "react-icons/hi";
+import { useNavigate } from "react-router-dom";
 import { AlertDialog, useDisclosure, AlertDialogOverlay, AlertDialogBody, AlertDialogHeader, AlertDialogContent, AlertDialogCloseButton, AlertDialogFooter, Table, Tbody, Tr, Td } from "@chakra-ui/react";
 import { useRef } from "react";
 
-const BoatCard = (props) => {
-  const {id, canCancel, selectedId}= props
+const BoatCard = () => {
   const { isOpen, onOpen, onClose }= useDisclosure()
+  const navigate= useNavigate()
   const cancelRef= useRef()
 
   return (
@@ -26,18 +27,11 @@ const BoatCard = (props) => {
             </Flex>
           </Flex>
 
-          <Flex direction="column" gap="4" align="center" flex={1} w="full">
-            <Heading fontSize="24">IDR 900.000</Heading>
-            {canCancel && selectedId!=null?
-              <Button size="lg" colorScheme="red" onClick={()=> props.onSelectBoat(null)}>
-                <Text fontSize="20">Cancel</Text>
-              </Button>
-              :
-              <Button size="lg" leftIcon={<HiOutlineCurrencyDollar size="25" />} colorScheme="blue" onClick={()=> props.onSelectBoat(id)}>
-                <Text fontSize="20">Select</Text>
-              </Button>
-            }
-            
+          <Flex padding="5" direction="column" gap="4" align="center">
+            <Heading fontSize="25">IDR 900.000</Heading>
+            <Button onClick={()=> navigate("/order")} size="lg" leftIcon={<HiOutlineCurrencyDollar size="25" />} colorScheme="blue">
+              <Text fontSize="20">Choose</Text>
+            </Button>
 
             <Text onClick={()=> onOpen()}>Detail</Text>
 
