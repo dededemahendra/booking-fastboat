@@ -112,7 +112,7 @@ const OrderDetailPage= ()=> {
                   <FormInput title="Gender">
                     <Radio mr="3" value="male" name={`passengers.${k}.gender`} onChange={departureForm.handleChange} >Male</Radio>
                     <Radio value="female" name={`passengers.${k}.gender`} onChange={departureForm.handleChange} >Female</Radio>
-                    <ErrorMessage form={departureForm} index={k} keys="gender" />
+                    <ErrorMessage form={departureForm} index={k} keys="gender" text="Gender" />
                   </FormInput>
                 </Box>
               ))
@@ -143,7 +143,7 @@ const OrderDetailPage= ()=> {
                   <FormInput title="Gender">
                     <Radio mr="3" value="male" name={`passengers.${k}.gender`} onChange={returnForm.handleChange} >Male</Radio>
                     <Radio value="female" name={`passengers.${k}.gender`} onChange={returnForm.handleChange} >Female</Radio>
-                    <ErrorMessage form={returnForm} index={k} keys="gender" />
+                    <ErrorMessage form={returnForm} index={k} keys="gender" text="Gender" />
                   </FormInput>
                 </Box>
               ))
