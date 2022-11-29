@@ -5,28 +5,29 @@ import { Image } from "@chakra-ui/image";
 import { HiOutlineCurrencyDollar } from "react-icons/hi";
 import { AlertDialog, useDisclosure, AlertDialogOverlay, AlertDialogBody, AlertDialogHeader, AlertDialogContent, AlertDialogCloseButton, AlertDialogFooter, Table, Tbody, Tr, Td } from "@chakra-ui/react";
 import { useRef } from "react";
+import moment from "moment";
 
 const BoatCard = (props) => {
-  const {id, canCancel, selectedId}= props
+  const {id, canCancel, selectedId, departureTime, departureDate, from, to}= props
   const { isOpen, onOpen, onClose }= useDisclosure()
   const cancelRef= useRef()
 
   return (
-    <Card w="full" bg="#33344D" margin="7" rounded="10" boxShadow="sm" p="6" marginX="auto">
+    <Card w="full" bg="#33344D" margin="6" rounded="10" boxShadow="sm" p="6" marginX="auto">
       <CardBody>
-        <Flex alignItems="center" direction={["column", "row"]} w="full" >
+        <Flex direction={["column", "row"]} w="full" justify="space-between">
 
-          <Flex w="full" alignSelf="flex-start" gap={["2", "6"]} direction={["column", "row"]}>
+          <Flex  gap={["3", "6"]} direction={["column", "row"]} flexGrow="1">
             <Image src="https://i0.wp.com/girleatworld.net/wp-content/uploads/2018/04/nusa-penida-kelingking-1.jpg?resize=840%2C670&ssl=1" alt="Nusa Penida" w={["full","40%"]} h={["auto", "150px"]} objectFit="contain" rounded="5" alignSelf="flex-start" />
             
-            <Flex alignItems="center" direction="column" marginTop="4">
-              <Heading fontSize="25" alignSelf="center" marginBottom={["2", "6"]}>Fast Boat 1</Heading>
-              <Text fontSize="lg" textAlign="center">Sanur Harbour - Banjar Nyuh</Text>
-              <Text fontSize="lg" textAlign="center">07.00 - 07.45 (Local Time)</Text>
+            <Flex alignItems="center" direction="column" marginTop="4" w="full">
+              <Heading fontSize="25" alignSelf="center" marginBottom={["2", "6"]}>Fast Boat</Heading>
+              <Text fontSize="lg" textAlign="center">{from} - {to}</Text>
+              <Text fontSize="lg" textAlign="center">{moment(departureDate).format("ddd, MMMM-D-Y")}, {departureTime || "-"}</Text>
             </Flex>
           </Flex>
 
-          <Flex direction="column" gap="4" align="center" flex={1} w="full">
+          <Flex direction="column" gap="4" align="center" mt={["3", "0"]} justifySelf="flex-end" alignItems="center">
             <Heading fontSize="24">IDR 900.000</Heading>
             {canCancel && selectedId!=null?
               <Button size="lg" colorScheme="red" onClick={()=> props.onSelectBoat(null)}>
@@ -37,9 +38,8 @@ const BoatCard = (props) => {
                 <Text fontSize="20">Select</Text>
               </Button>
             }
-            
 
-            <Text onClick={()=> onOpen()}>Detail</Text>
+            <Text cursor="pointer" onClick={()=> onOpen()}>Detail</Text>
 
             <AlertDialog isOpen={isOpen} onClose={onClose} isCentered motionPreset="slideInBottom" leastDestructiveRef={cancelRef}>
               <AlertDialogOverlay/>
@@ -66,11 +66,6 @@ const BoatCard = (props) => {
                         <Td w="fit-content">:</Td>
                         <Td>IDR 350.000 / Pax</Td>
                       </Tr>
-                      <Tr>
-                        <Td>1 Ticket</Td>
-                        <Td w="fit-content">:</Td>
-                        <Td>IDR 350.000 / Pax</Td>
-                      </Tr>
                     </Tbody>
                   </Table>
                 </AlertDialogBody>
@@ -86,7 +81,7 @@ const BoatCard = (props) => {
       </CardBody>
       <CardFooter></CardFooter>
     </Card>
-  );
-};
+  )
+}
 
-export default BoatCard;
+export default BoatCard

@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     port: 3000,
     proxy: {
-      "/api": "https://service.dcamelfastferry.com/stikom/api.php"
+      "/api": "http://msib.dcamelfastferry.com/api.php"
     }
   }
 })

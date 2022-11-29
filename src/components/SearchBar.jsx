@@ -6,13 +6,14 @@ import { useEffect } from "react";
 import { Box, Flex, Button, Input, Checkbox, useToast, Select, Text } from "@chakra-ui/react";
 import axios from "./../utils/axios";
 import querystring from 'query-string'
+import { getOrderData } from "../utils/storage";
 
 function FormControl(props) {
   const {title, children, showBorder= false}= props
 
   return (
-    <Flex width={["full", "33.33%"]} borderRight={showBorder?["", "1px solid #fff"]:""} px="4" mb="4" align="center">
-      <Box>
+    <Flex w={["full", "33.33%"]} borderRight={showBorder?["", "1px solid #fff"]:""} px="4" mb={["6", "4"]} align="center">
+      <Box w="full">
         <Text marginBottom={"2"} fontWeight={"bold"}>{title}</Text>
         {children}
       </Box>
@@ -21,7 +22,7 @@ function FormControl(props) {
 }
 
 const SearchBar = (props) => {
-  const {getSearchParams= false}= props
+  const {getSearchParams= false, beforeSearch}= props
   const navigate = useNavigate()
   const toast = useToast()
   const searchParams= querystring.parse(location.search)
@@ -58,7 +59,7 @@ const SearchBar = (props) => {
         duration: 2000,
         isClosable: true,
         position: "top-right",
-      });
+      })
     }
 
     const searchParams = {
@@ -72,6 +73,10 @@ const SearchBar = (props) => {
       searchParams.returnDate = returnDate;
     }
 
+    if (beforeSearch) {
+      beforeSearch()
+    }
+
     navigate({
       pathname: "/boats",
       search: `?${createSearchParams(searchParams)}`,
@@ -79,6 +84,7 @@ const SearchBar = (props) => {
   }
 
   useEffect(()=> {
+    
     getAvailableBoats()
 
     if (getSearchParams) {
@@ -101,10 +107,10 @@ const SearchBar = (props) => {
   }, [from]);
 
   return (
-    <Flex width={{ base: "90%", lg: "80%" }} bgColor={"#021526"} mt={"10"} px={"14"} paddingY={"7"} borderRadius={"md"} textColor={"white"} flexWrap="wrap" border="1px" direction={["column", "row"]}>
+    <Flex w={["85%", "80%" ]} bgColor={"#021526"} mt={"10"} px={["6", "14"]} paddingY={"7"} borderRadius={"md"} textColor={"white"} flexWrap="wrap" border="1px" direction={["column", "row"]}>
 
       <FormControl title="from" showBorder={true}>
-        <Select variant={"unstyled"} width={"fit-content"} placeholder="Choose Departure Harbour" color="#fff" value={from} onChange={(e) => setFrom(e.target.value)}>
+        <Select variant={"unstyled"} w={["full", "fit-content"]} placeholder="Choose Departure Harbour" color="#fff" value={from} onChange={(e) => setFrom(e.target.value)}>
           {availableHarbours.map((v, k) => (
             <option value={v} key={k}>
               {v}
@@ -114,7 +120,7 @@ const SearchBar = (props) => {
       </FormControl>
 
       <FormControl title="To" showBorder={true} >
-        <Select color="#fff" variant={"unstyled"} width={"fit-content"} value={to} onChange={(e) => setTo(e.target.value)}>
+        <Select color="#fff" variant={"unstyled"} w={["full", "fit-content"]} value={to} onChange={(e) => setTo(e.target.value)}>
           <option value="">Choose Destination</option>
           {availableDestinationHarbors.map((v, k) => (
             <option value={v} key={k}>
@@ -125,7 +131,7 @@ const SearchBar = (props) => {
       </FormControl>
 
       <FormControl title="Passenger">
-          <Select w="fit-content" color="#fff" variant={"unstyled"} value={passenger} onChange={(e) => setPassenger(e.target.value)}>
+          <Select w={["full", "fit-content"]} color="#fff" variant={"unstyled"} value={passenger} onChange={(e) => setPassenger(e.target.value)}>
             {[...Array(10)].map((_, k) => (
               <option value={k + 1} key={k}>
                 {k + 1} Person
@@ -135,20 +141,20 @@ const SearchBar = (props) => {
       </FormControl>
 
       <FormControl showBorder={true} title="Departure">
-        <Input type="date" variant="unstyled" value={departureDate} min={departureDate} width="fit-content" onInput={(e) => setDepartureDate(e.target.value)} />
+        <Input type="date" variant="unstyled" value={departureDate} min={departureDate} w={["full", "fit-content"]} onInput={(e) => setDepartureDate(e.target.value)} />
       </FormControl>
 
       <FormControl showBorder={true}>
         <Text marginBottom={"2"} fontWeight={"bold"}>
           Return
         </Text>
-        {isReturnChecked && <Input marginRight="3" type="date" variant="unstyled" value={returnDate} min={returnDate} width="fit-content" onInput={(e) => setReturnDate(e.target.value)} />}
+        {isReturnChecked && <Input marginRight="3" type="date" variant="unstyled" value={returnDate} min={returnDate} w={["full", "fit-content"]} onInput={(e) => setReturnDate(e.target.value)} />}
         <Checkbox isChecked={isReturnChecked} onChange={(e) => setIsReturnCheked(e.target.checked)}>Return</Checkbox>
       </FormControl>
 
       <FormControl>
        <Flex align="center" justify="center" h="full">
-        <Button bgColor="#4A60A1" width="36" onClick={() => searchBoats()}> Search </Button>
+        <Button bgColor="#4A60A1" w="36" onClick={() => searchBoats()}> Search </Button>
        </Flex>
       </FormControl>
 

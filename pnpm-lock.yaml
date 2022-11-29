@@ -28,6 +28,7 @@ specifiers:
   moment: ^2.29.4
   query-string: ^7.1.1
   react: ^18.2.0
+  react-client-session: ^0.0.8
   react-dom: ^18.2.0
   react-helmet-async: ^1.3.0
   react-icons: ^4.6.0
@@ -60,6 +61,7 @@ dependencies:
   moment: 2.29.4
   query-string: 7.1.1
   react: 18.2.0
+  react-client-session: 0.0.8_react@18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-helmet-async: 1.3.0_biqbaboplfbrettd7655fr4n2y
   react-icons: 4.6.0_react@18.2.0
@@ -2706,6 +2708,14 @@ packages:
     resolution: {integrity: sha512-Sq4CW4QhwOHE8ucn6J34MqtZCeWFP2aQSmrlroYgqAV1PjStIhJXxYuTgUIfkEk7zTLjmIjLmU5q+fbD1NnOJA==}
     dependencies:
       performance-now: 2.1.0
+    dev: false
+
+  /react-client-session/0.0.8_react@18.2.0:
+    resolution: {integrity: sha512-wHCTD4lEE8mzl6kxL8viL4q5kGx2TJJNaWdvzmx3KeiMgP+Yv5/Bx476jCpPD0pKc5VvdVuhkH4EM20XqtT/sQ==}
+    peerDependencies:
+      react: ^17.0.1
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /react-clientside-effect/1.2.6_react@18.2.0:

@@ -31,7 +31,7 @@ const HomePage= ()=> {
       <Flex textAlign={"center"} marginTop="16" justify="center" alignItems="center" direction="column">
         <Heading fontSize="2xl" marginBottom="16">Testimoni</Heading>
 
-        <Box w="50%" border="1px solid #fff" px="10" py="5">
+        <Box w={["80%", "50%"]} border="1px solid #fff" px={["3", "10"]} py="5">
           <ChakraCarousel gap={0} >
             {
               [...Array(4)].map((_, k)=> (
