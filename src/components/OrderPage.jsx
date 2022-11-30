@@ -1,12 +1,7 @@
-import { useRef, useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { HStack, Grid, GridItem } from '@chakra-ui/layout'
-import { Flex, Box, Heading, Text, VStack, FormControl, FormLabel, Input, Button, Image, Select as Sel  } from '@chakra-ui/react'
+import { Text, FormControl, FormLabel, Input, Button  } from '@chakra-ui/react'
 import { Select } from 'chakra-react-select'
-import { Form, Formik, Field, ErrorMessage } from 'formik'
-import FormikErrorFocus from "formik-error-focus"
+import { Field, ErrorMessage } from 'formik'
 import * as yup from 'yup'
-import axios from './../utils/axios'
 
 export const initialValues= {
   firstName: "",
@@ -42,7 +37,7 @@ export const FormSection= (props)=> {
     <FormControl paddingX="4" color="white">
       <FormLabel>{label}</FormLabel>
       {type=="select"?
-        <Select placeholder="Select Your Nationality" name={name} options={options} onChange={e=> setFieldValue(name, e.value)}  bg="tomato" selectedOptionStyle="check" />
+        <Select placeholder="Select Your Nationality" name={name} options={options} onChange={e=> setFieldValue(name, e.label)}  bg="tomato" selectedOptionStyle="check" />
         :<Field as={Input} name={name} type={type} options={options} height="9" variant="filled" size="md" outlineColor="gray" />
       }
       <ErrorMessage marginTop="2" color="red" name={name} component={Text}   />

@@ -21,8 +21,8 @@ const NoReturnLayout= (props)=> {
 }
 
 const ReturnLayout= (props)=> {
-  const searchParams= queryString.parse(location.search)
-  const { onSelectDepartureBoat, onSelectReturnBoat, departureBoatId, departureBoats= [], returnBoats= [], departureDate, from, to }= props
+  const {from, to, departureDate, returnDate}= queryString.parse(location.search)
+  const { onSelectDepartureBoat, onSelectReturnBoat, departureBoatId, departureBoats= [], returnBoats= [] }= props
 
   const filteredDepartureBoats= departureBoatId!=null?departureBoats.filter((_, k)=> k==departureBoatId):departureBoats
 
@@ -43,9 +43,9 @@ const ReturnLayout= (props)=> {
       <GridItem borderRight={["", "3px solid #fff"]} px="5">
         <Heading size="lg" mb="5">Departure</Heading>
         <HStack justifyContent="center" alignItems="center" gap="2">
-          <DestinationText type="from" text={searchParams.from} />
+          <DestinationText type="from" text={from} />
           <Text fontSize="2xl">to</Text>
-          <DestinationText type="to" text={searchParams.to} />
+          <DestinationText type="to" text={to} />
         </HStack>
 
         { filteredDepartureBoats.map((boat, k)=> (
@@ -56,13 +56,13 @@ const ReturnLayout= (props)=> {
       <GridItem px="5">
         <Heading size="lg" mb="5">Return</Heading>
         <HStack justifyContent="center" alignItems="center" gap="2">
-          <DestinationText type="to" text={searchParams.to} />
+          <DestinationText type="to" text={to} />
           <Text fontSize="2xl">to</Text>
-          <DestinationText type="from" text={searchParams.from} />
+          <DestinationText type="from" text={from} />
         </HStack>
 
         {returnBoats.map((boat, k)=> (
-          <BoatCard onSelectBoat={selectReturnBoat} key={k} id={k} departureTime={boat.jam_keberangkatan} selectedId={departureBoatId} from={to} to={from} departureDate={departureDate} />
+          <BoatCard onSelectBoat={selectReturnBoat} key={k} id={k} departureTime={boat.jam_keberangkatan} selectedId={departureBoatId} from={to} to={from} departureDate={returnDate} />
         ))}
 
       </GridItem>
@@ -71,7 +71,7 @@ const ReturnLayout= (props)=> {
 }
 
 const BoatsPage = () => {
-  const searchParams= queryString.parse(location.search)
+  const {from, to, departure, passenger, returnDate}= queryString.parse(location.search)
   const [search]= useSearchParams()
   const navigate= useNavigate()
   const [isLoading, setIsLoading]= useState(true)
@@ -93,18 +93,17 @@ const BoatsPage = () => {
 
   useEffect(()=> {
     const orderData= {
-      from: searchParams.from,
-      to: searchParams.to,
-      departureDate: searchParams.departure,
-      passenger: searchParams.passenger
+      from: from,
+      to: to,
+      departureDate: departure,
+      departureTime: departureBoats[departureBoatId]?.jam_keberangkatan || "",
+      passenger: passenger
     }
 
-    orderData.departureTime= departureBoats[departureBoatId]?.jam_keberangkatan || ""
-
-    if (searchParams.returnDate) {      
+    if (returnDate) {      
       if (departureBoatId!=null && returnBoatId!=null) {
-        orderData.returnDate= searchParams.returnDate
-        orderData.returnTime= departureBoats[returnBoatId].jam_keberangkatan
+        orderData.returnDate= returnDate
+        orderData.returnTime= returnBoats[returnBoatId].jam_keberangkatan
         setOrderData(orderData)
 
         navigate("/order")
@@ -120,9 +119,6 @@ const BoatsPage = () => {
   }, [departureBoatId, returnBoatId])
 
   useEffect(() => {
-    // TODO: search request whenever query string is changed
-    const {from, to, departure, passenger, returnDate}= searchParams
-
     if (!from || !to || !departure || !passenger) {
       return navigate("/")
     }
@@ -150,12 +146,12 @@ const BoatsPage = () => {
       )
     }
 
-    if (searchParams.returnDate) {
+    if (returnDate) {
       if (!departureBoats || !returnBoats) {
         return <Text>Boat is not available.</Text>
       }
 
-      return <ReturnLayout onSelectDepartureBoat={setDepartureBoatId} departureBoatId={departureBoatId} onSelectReturnBoat={setReturnBoatId} departureBoats={departureBoats} returnBoats={returnBoats} departureDate={searchParams.departure} from={searchParams.from} to={searchParams.to} />
+      return <ReturnLayout onSelectDepartureBoat={setDepartureBoatId} departureBoatId={departureBoatId} onSelectReturnBoat={setReturnBoatId} departureBoats={departureBoats} returnBoats={returnBoats}  />
     } 
     
     else {
@@ -163,7 +159,7 @@ const BoatsPage = () => {
         return <Text>Boat is not available.</Text>
       }
 
-      return <NoReturnLayout onSelectBoat={setDepartureBoatId}  boats={departureBoats} departureDate={searchParams.departure} from={searchParams.from} to={searchParams.to}  />
+      return <NoReturnLayout onSelectBoat={setDepartureBoatId}  boats={departureBoats}   />
     }
 
   }

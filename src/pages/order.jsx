@@ -7,10 +7,12 @@ import FormikErrorFocus from "formik-error-focus"
 import moment from "moment"
 import axios from "./../utils/axios"
 import {initialValues, validationSchema, FormSection, CheckoutButton} from "./../components/OrderPage"
-import { getOrderData } from "../utils/storage"
+import { getOrderData, setOrderData } from "../utils/storage"
+import { getPrice } from "../utils/outletCtx"
+import { formatRupiah } from "../utils/formatRupiah"
 
 const BoatDetail= (props)=> {
-  const {setPassenger, passenger, from, to, date, time}= props
+  const {setPassenger, passenger, from, to, date, time, price}= props
 
   return (
     <Flex flexDirection="column" bgColor="#032340" paddingY="12" paddingX="10" borderRadius="md" marginBottom="7">
@@ -51,10 +53,10 @@ const BoatDetail= (props)=> {
 
       <Grid textColor="#979EA6" marginTop="5" marginX="auto" templateColumns="repeat(2, 1fr)" columnGap="16" rowGap="3">
         <GridItem>Ticket Fee</GridItem>
-        <GridItem>IDR 100.000</GridItem>
+        <GridItem>{formatRupiah(price)}</GridItem>
 
         <GridItem>Total</GridItem>
-        <GridItem fontWeight="bold" color="white">IDR {100000 * passenger}</GridItem>
+        <GridItem fontWeight="bold" color="white">{formatRupiah(price * passenger)}</GridItem>
       </Grid>
 
     </Flex>
@@ -73,6 +75,7 @@ const OrderPage= ()=> {
   const btnSubmit= useRef(null)
 
   const navigate= useNavigate()
+  const price= getPrice()
 
   async function getNationality() {
     try {
@@ -85,13 +88,18 @@ const OrderPage= ()=> {
   }
 
   function formSubmit(values) {
-    console.log(values);
+    setOrderData({
+      ...getOrderData(),
+      clientData: values,
+      passenger,
+    })
+
     navigate("/order_detail")
   }
 
   useEffect(()=> {
     const orderData= getOrderData()
-    console.log(orderData);
+    
     setFrom(orderData.from)
     setTo(orderData.to)
     setPassenger(orderData.passenger)
@@ -143,9 +151,9 @@ const OrderPage= ()=> {
         <Box width={["full", "65%"]}>
           <Heading size={"lg"} color="white" marginBottom="5">Booking Cart</Heading>
 
-          <BoatDetail setPassenger={setPassenger} passenger={passenger} from={from} to={to} date={departureDate} time={departureTime} />
+          <BoatDetail setPassenger={setPassenger} passenger={passenger} from={from} to={to} date={departureDate} time={departureTime} price={price} />
 
-          {returnDate&&<BoatDetail passenger={passenger} from={to} to={from} date={returnDate} time={returnTime} />}
+          {returnDate&&<BoatDetail passenger={passenger} from={to} to={from} date={returnDate} time={returnTime} price={price} />}
 
           <Flex bgColor="#032340" textAlign="center"  py="9" justifyContent="center">
             <Grid templateColumns="repeat(2, 1fr)" columnGap="10" rowGap="5">
@@ -154,7 +162,7 @@ const OrderPage= ()=> {
               </GridItem>
 
               <GridItem>
-                <Text color="white" fontSize="xl" fontWeight="bold">IDR 350.000</Text>
+                <Text color="white" fontSize="xl" fontWeight="bold">{formatRupiah(price * passenger * (returnDate?2:1))}</Text>
               </GridItem>
 
               <GridItem colSpan={["2", "1"]}>

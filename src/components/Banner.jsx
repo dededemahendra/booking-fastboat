@@ -1,4 +1,3 @@
-import { Box } from "@chakra-ui/layout";
 import { Heading, Text, Flex, Grid, Select, Button, useColorMode, Input, Checkbox, useToast } from "@chakra-ui/react";
 import SearchBar from "./SearchBar";
 

@@ -1,28 +1,15 @@
+import { useEffect, useState } from "react"
 import { FormLabel } from "@chakra-ui/form-control"
 import { Heading, Flex, Box, VStack, List, ListItem } from "@chakra-ui/layout"
-import { Text, Checkbox, Button, FormControl, Input, Radio } from "@chakra-ui/react"
+import { Text, Checkbox, Button, FormControl, Input, Radio, RadioGroup } from "@chakra-ui/react"
 import { Select } from "chakra-react-select"
 import { useFormik } from "formik"
-import { useEffect } from "react"
-import { useState } from "react"
 import * as yup from "yup"
-
-const departureInitialValue= {
-  passengers: [
-    {
-      fullname: "",
-      country: "",
-      phone: "",
-      gender: ""
-    },
-    {
-      fullname: "",
-      country: "",
-      phone: "",
-      gender: ""
-    },
-  ]
-}
+import axios from "./../utils/axios"
+import { getOrderData } from "../utils/storage"
+import moment from "moment"
+import { formatRupiah } from "../utils/formatRupiah"
+import { getPrice } from "../utils/outletCtx"
 
 const validationSchema= yup.object().shape({
   passengers: yup.array().of(yup.object().shape({
@@ -53,9 +40,44 @@ const FormInput= ({children, title})=> {
   )
 }
 
+const ReturnSelectNationality= (props)=> {
+  const {nationality, returnForm, k}= props
+  const [inputValue, setInputValue]= useState("")
+  const selectedCountry= returnForm.values.passengers[k].nationality
+  const [isChanged, setIsChanged]= useState(false)
+
+  useEffect(()=> {
+    if (!isChanged) {
+      setInputValue(selectedCountry)
+    }
+
+    setIsChanged(false)
+  }, [selectedCountry])
+
+  function changeCountry(country) {
+    returnForm.setFieldValue(`passengers.${k}.nationality`, country)
+    setIsChanged(true)
+  }
+
+  return <Select options={nationality} onInputChange={e=> setInputValue(e)} inputValue={inputValue} onChange={e=> changeCountry(e.label)}></Select>
+}
+
 const OrderDetailPage= ()=> {
+  const orderData= getOrderData()
+  const {clientData, to, from, returnDate, returnTime, passenger, departureDate, departureTime}= orderData
   const [agreetnc, setAgreetnc]= useState(false)
-  const [isReturn, setIsReturn]= useState(true)
+  const isReturn= !!returnDate
+  const [nationality, setNationality]= useState([])
+  const price= getPrice()
+
+  const departureInitialValue= {
+    passengers: [...Array(+passenger)].fill({
+      fullname: "",
+      nationality: "",
+      phone: "",
+      gender: ""
+    })
+  }
 
   const departureForm= useFormik({
     initialValues: departureInitialValue,
@@ -73,12 +95,31 @@ const OrderDetailPage= ()=> {
   function submitForm() {
     departureForm.handleSubmit()
 
+    console.log(departureForm.values, returnForm.values);
+
     if (isReturn) {
       returnForm.handleSubmit()
     }
   }
 
+  async function getNationality() {
+    try {
+      const {data}= await axios("/api?apicall=nationality")
+
+      setNationality(data.map(v=> {
+        return {
+          label: v.nationality,
+          value: v.nationality,
+          // value: v.kode,
+        }
+      }))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   useEffect(()=> {
+    getNationality()
     // departureForm.handleSubmit()
   }, [])
 
@@ -100,7 +141,7 @@ const OrderDetailPage= ()=> {
                   </FormInput>
 
                   <FormInput title="Country">
-                    <Select></Select>
+                    <Select  options={nationality} onChange={e=> departureForm.setFieldValue(`passengers.${k}.nationality`, e.label)}></Select>
                     <ErrorMessage form={departureForm} index={k} keys="country" text="Country" />
                   </FormInput>
 
@@ -110,8 +151,10 @@ const OrderDetailPage= ()=> {
                   </FormInput>
 
                   <FormInput title="Gender">
-                    <Radio mr="3" value="male" name={`passengers.${k}.gender`} onChange={departureForm.handleChange} >Male</Radio>
-                    <Radio value="female" name={`passengers.${k}.gender`} onChange={departureForm.handleChange} >Female</Radio>
+                    <RadioGroup name={`passengers.${k}.gender`} onChange={e=> departureForm.setFieldValue(`passengers.${k}.gender`, e)}>
+                      <Radio value="male" >Male</Radio>
+                      <Radio ml="3" value="female">Female</Radio>
+                    </RadioGroup>
                     <ErrorMessage form={departureForm} index={k} keys="gender" text="Gender" />
                   </FormInput>
                 </Box>
@@ -131,7 +174,7 @@ const OrderDetailPage= ()=> {
                   </FormInput>
 
                   <FormInput title="Country">
-                    <Select></Select>
+                    <ReturnSelectNationality nationality={nationality} returnForm={returnForm} k={k} />
                     <ErrorMessage form={returnForm} index={k} keys="country" text="Country" />
                   </FormInput>
 
@@ -141,8 +184,10 @@ const OrderDetailPage= ()=> {
                   </FormInput>
 
                   <FormInput title="Gender">
-                    <Radio mr="3" value="male" name={`passengers.${k}.gender`} onChange={returnForm.handleChange} >Male</Radio>
-                    <Radio value="female" name={`passengers.${k}.gender`} onChange={returnForm.handleChange} >Female</Radio>
+                    <RadioGroup value={returnForm.values.passengers[k].gender} onChange={e=> returnForm.setFieldValue(`passengers.${k}.gender`, e)}>
+                      <Radio value="male" >Male</Radio>
+                      <Radio ml="3" value="female">Female</Radio>
+                    </RadioGroup>
                     <ErrorMessage form={returnForm} index={k} keys="gender" text="Gender" />
                   </FormInput>
                 </Box>
@@ -158,10 +203,10 @@ const OrderDetailPage= ()=> {
             <Text textAlign="center">Booked By</Text>
 
             <List borderBottom="1px solid #fff">
-              <ListItem>Name</ListItem>
-              <ListItem>Email</ListItem>
-              <ListItem>Nationality</ListItem>
-              <ListItem>Phone Number</ListItem>
+              <ListItem>Name : {clientData.firstName} {clientData.lastName}</ListItem>
+              <ListItem>Email : {clientData.email}</ListItem>
+              <ListItem>Nationality : {clientData.country}</ListItem>
+              <ListItem>Phone Number : {clientData.phone}</ListItem>
             </List>
           </Box>
 
@@ -169,40 +214,44 @@ const OrderDetailPage= ()=> {
             <Text textAlign="center">Depart</Text>
 
             <List borderBottom="1px solid #fff">
-              <ListItem>Name</ListItem>
-              <ListItem>Email</ListItem>
-              <ListItem>Nationality</ListItem>
-              <ListItem>Phone Number</ListItem>
+              <ListItem>{from} to {to}</ListItem>
+              <ListItem>{departureTime}</ListItem>
+              <ListItem>{moment(departureDate).format("dddd, MMMM DD Y")}</ListItem>
+              <ListItem>{passenger} Person</ListItem>
               <ListItem w="full">
                 <Flex justify="space-between">
                   <Text>Ticket Fee</Text>
-                  <Text>IDR 300.000</Text>
+                  <Text>{formatRupiah(price * passenger)}</Text>
                 </Flex>
               </ListItem>
             </List>
           </Box>
 
-          <Box>
-            <Text textAlign="center">Return</Text>
+          {
+            isReturn&&
+            <Box>
+              <Text textAlign="center">Return</Text>
 
-            <List borderBottom="1px solid #fff">
-              <ListItem>Name</ListItem>
-              <ListItem>Email</ListItem>
-              <ListItem>Nationality</ListItem>
-              <ListItem>Phone Number</ListItem>
-              <ListItem>
-                <Flex justify="space-between">
-                  <Text>Ticket Fee</Text>
-                  <Text>IDR 300.000</Text>
-                </Flex>
-              </ListItem>
-            </List>
+              <List borderBottom="1px solid #fff">
+                <ListItem>{to} to {from}</ListItem>
+                <ListItem>{returnTime}</ListItem>
+                <ListItem>{moment(returnDate).format("dddd, MMMM DD Y")}</ListItem>
+                <ListItem>{passenger} Person</ListItem>
+                <ListItem>
+                  <Flex justify="space-between">
+                    <Text>Ticket Fee</Text>
+                    <Text>{formatRupiah(price * passenger)}</Text>
+                  </Flex>
+                </ListItem>
+              </List>
 
-            <Flex justify="space-between">
-              <Text>Total</Text>
-              <Text>IDR 600.000</Text>
-            </Flex>
-          </Box>
+              <Flex justify="space-between">
+                <Text>Total</Text>
+                <Text>{formatRupiah(price * passenger * (returnDate?2:1))}</Text>
+              </Flex>
+            </Box>
+          }
+
 
         </VStack>
       </Flex>

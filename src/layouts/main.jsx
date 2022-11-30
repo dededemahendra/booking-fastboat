@@ -5,6 +5,8 @@ import Header from "./../components/Header"
 import Footer from "./../components/Footer"
 import { ScrollRestoration } from "react-router-dom"
 
+const price= 200000
+
 const MainLayout= ()=> {
   const [isLoading, setIsLoading]= useState(true)
 
@@ -25,7 +27,7 @@ const MainLayout= ()=> {
         <Header/>
   
         <Box paddingTop={"80px"} minH={"100vh"} width={"full"}>
-          <Outlet/>
+          <Outlet context={{price}} />
         </Box>
   
         <Footer/>

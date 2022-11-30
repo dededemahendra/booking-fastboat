@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { Box, Flex, Button, Input, Checkbox, useToast, Select, Text } from "@chakra-ui/react";
 import axios from "./../utils/axios";
 import querystring from 'query-string'
-import { getOrderData } from "../utils/storage";
+import { getOrderData } from "../utils/storage";  
 
 function FormControl(props) {
   const {title, children, showBorder= false}= props
