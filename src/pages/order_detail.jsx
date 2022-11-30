@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react"
 import { FormLabel } from "@chakra-ui/form-control"
 import { Heading, Flex, Box, VStack, List, ListItem } from "@chakra-ui/layout"
-import { Text, Checkbox, Button, FormControl, Input, Radio, RadioGroup } from "@chakra-ui/react"
+import { Text, Checkbox, Button, FormControl, Input, Radio, RadioGroup, useToast } from "@chakra-ui/react"
 import { Select } from "chakra-react-select"
 import { useFormik } from "formik"
+import { useNavigate } from "react-router-dom"
 import * as yup from "yup"
 import axios from "./../utils/axios"
 import { getOrderData } from "../utils/storage"
@@ -14,7 +15,7 @@ import { getPrice } from "../utils/outletCtx"
 const validationSchema= yup.object().shape({
   passengers: yup.array().of(yup.object().shape({
     fullname: yup.string().required(),
-    country: yup.string().required(),
+    nationality: yup.string().required(),
     phone: yup.string().required(),
     gender: yup.string().required()
   }))
@@ -64,41 +65,89 @@ const ReturnSelectNationality= (props)=> {
 
 const OrderDetailPage= ()=> {
   const orderData= getOrderData()
-  const {clientData, to, from, returnDate, returnTime, passenger, departureDate, departureTime}= orderData
   const [agreetnc, setAgreetnc]= useState(false)
-  const isReturn= !!returnDate
+  const isReturn= !!orderData?.returnDate
   const [nationality, setNationality]= useState([])
   const price= getPrice()
+  const navigate= useNavigate()
+  const toast= useToast()
 
   const departureInitialValue= {
-    passengers: [...Array(+passenger)].fill({
-      fullname: "",
-      nationality: "",
-      phone: "",
-      gender: ""
+    passengers: [...Array(+orderData?.passenger || 1)].fill({
+      fullname: "a",
+      nationality: "Indonesia",
+      phone: "10101",
+      gender: "male"
     })
   }
 
   const departureForm= useFormik({
     initialValues: departureInitialValue,
     validationSchema,
-    onSubmit: (values)=> {
-      console.log(values);
-    }
+    onSubmit: ()=> null
   })
 
   const returnForm= useFormik({
     initialValues: departureInitialValue,
-    validationSchema
+    validationSchema,
+    onSubmit: ()=> null
   })
 
-  function submitForm() {
+  async function submitForm() {
+    if (!agreetnc) {
+      return toast({
+        status: "warning",
+        position: "top-right",
+        isClosable: true,
+        title: "Please check agree Terms and Condition.",
+        duration: 2000
+      })
+    }
+
     departureForm.handleSubmit()
+    let valid= departureForm.isValid
 
-    console.log(departureForm.values, returnForm.values);
+    const item_detail= {
+      name: `Ticket ${orderData?.from} to ${orderData?.to}`,
+      price,
+      quantity: orderData?.passenger,     
+    }
 
+    const payment_details= {
+      total_price: price * orderData?.passenger * (isReturn?2:1),
+      item_details: [
+        item_detail
+      ],
+      first_name: orderData?.clientData.firstName,
+      last_name: orderData?.clientData.lastName,
+      email: orderData?.clientData.email,
+      phone: orderData?.clientData.phone
+    }
+    
     if (isReturn) {
       returnForm.handleSubmit()
+      valid= returnForm.isValid
+
+      payment_details.item_details.push({
+        ...item_detail,
+        name: `Ticket ${orderData?.to} to ${orderData?.from}`
+      })
+    }
+
+    console.log(payment_details)
+
+    try {
+      const {data}= await axios.post("/edge-func/test-func", {
+        ...payment_details
+      })
+
+      window?.snap.pay(data.token, {
+        onSuccess: payload=> {
+          console.log(payload)
+        }
+      })
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -119,6 +168,9 @@ const OrderDetailPage= ()=> {
   }
 
   useEffect(()=> {
+    if (!orderData) {
+      navigate("/")
+    }
     getNationality()
     // departureForm.handleSubmit()
   }, [])
@@ -203,10 +255,10 @@ const OrderDetailPage= ()=> {
             <Text textAlign="center">Booked By</Text>
 
             <List borderBottom="1px solid #fff">
-              <ListItem>Name : {clientData.firstName} {clientData.lastName}</ListItem>
-              <ListItem>Email : {clientData.email}</ListItem>
-              <ListItem>Nationality : {clientData.country}</ListItem>
-              <ListItem>Phone Number : {clientData.phone}</ListItem>
+              <ListItem>Name : {orderData?.clientData.firstName} {orderData?.clientData.lastName}</ListItem>
+              <ListItem>Email : {orderData?.clientData.email}</ListItem>
+              <ListItem>Nationality : {orderData?.clientData.country}</ListItem>
+              <ListItem>Phone Number : {orderData?.clientData.phone}</ListItem>
             </List>
           </Box>
 
@@ -214,14 +266,14 @@ const OrderDetailPage= ()=> {
             <Text textAlign="center">Depart</Text>
 
             <List borderBottom="1px solid #fff">
-              <ListItem>{from} to {to}</ListItem>
-              <ListItem>{departureTime}</ListItem>
-              <ListItem>{moment(departureDate).format("dddd, MMMM DD Y")}</ListItem>
-              <ListItem>{passenger} Person</ListItem>
+              <ListItem>{orderData?.from} to {orderData?.to}</ListItem>
+              <ListItem>{orderData?.departureTime}</ListItem>
+              <ListItem>{moment(orderData?.departureDate).format("dddd, MMMM DD Y")}</ListItem>
+              <ListItem>{orderData?.passenger} Person</ListItem>
               <ListItem w="full">
                 <Flex justify="space-between">
                   <Text>Ticket Fee</Text>
-                  <Text>{formatRupiah(price * passenger)}</Text>
+                  <Text>{formatRupiah(price * orderData?.passenger)}</Text>
                 </Flex>
               </ListItem>
             </List>
@@ -233,21 +285,21 @@ const OrderDetailPage= ()=> {
               <Text textAlign="center">Return</Text>
 
               <List borderBottom="1px solid #fff">
-                <ListItem>{to} to {from}</ListItem>
-                <ListItem>{returnTime}</ListItem>
-                <ListItem>{moment(returnDate).format("dddd, MMMM DD Y")}</ListItem>
-                <ListItem>{passenger} Person</ListItem>
+                <ListItem>{orderData?.to} to {orderData?.from}</ListItem>
+                <ListItem>{orderData?.returnTime}</ListItem>
+                <ListItem>{moment(orderData?.returnDate).format("dddd, MMMM DD Y")}</ListItem>
+                <ListItem>{orderData?.passenger} Person</ListItem>
                 <ListItem>
                   <Flex justify="space-between">
                     <Text>Ticket Fee</Text>
-                    <Text>{formatRupiah(price * passenger)}</Text>
+                    <Text>{formatRupiah(price * orderData?.passenger)}</Text>
                   </Flex>
                 </ListItem>
               </List>
 
               <Flex justify="space-between">
                 <Text>Total</Text>
-                <Text>{formatRupiah(price * passenger * (returnDate?2:1))}</Text>
+                <Text>{formatRupiah(price * orderData?.passenger * (orderData?.returnDate?2:1))}</Text>
               </Flex>
             </Box>
           }
@@ -257,7 +309,7 @@ const OrderDetailPage= ()=> {
       </Flex>
 
       <Flex flex="1" justify="center">
-        <Checkbox mr="3" onChange={e=> setAgreetnc(e.target.value)}>I Agree to Terms and Condition</Checkbox>
+        <Checkbox mr="3" onChange={e=> setAgreetnc(e.target.checked)}>I Agree to Terms and Condition</Checkbox>
 
         <Button onClick={()=> submitForm()}>Proceed to Payment</Button>
       </Flex>

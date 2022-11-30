@@ -7,7 +7,14 @@ export default defineConfig({
   server: {
     port: 3000,
     proxy: {
-      "/api": "http://msib.dcamelfastferry.com/api.php"
+      "/api": "http://msib.dcamelfastferry.com/api.php",
+      "/edge-func/": {
+        target: "https://pikiofmcevitafcfjrpq.functions.supabase.co/",
+        changeOrigin: true,
+        rewrite: path=> {
+          return path.split("/").splice(2).join("/")
+        }
+      }
     }
   }
 })

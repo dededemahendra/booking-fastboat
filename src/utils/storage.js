@@ -1,6 +1,6 @@
 import {ReactSession} from "react-client-session"
 
-ReactSession.setStoreType("cookie")
+ReactSession.setStoreType("sessionStorage")
 
 export function getOrderData() {
   try {

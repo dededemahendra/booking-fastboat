@@ -99,6 +99,10 @@ const OrderPage= ()=> {
 
   useEffect(()=> {
     const orderData= getOrderData()
+
+    if (!orderData) {
+      navigate("/")
+    }
     
     setFrom(orderData.from)
     setTo(orderData.to)
