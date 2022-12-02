@@ -26,7 +26,7 @@ const MainLayout= ()=> {
         <ScrollRestoration/>
         <Header/>
   
-        <Box paddingTop={"80px"} minH={"100vh"} width={"full"}>
+        <Box paddingTop={"80px"} minH={"100vh"} width={"full"} mb="16">
           <Outlet context={{price}} />
         </Box>
   

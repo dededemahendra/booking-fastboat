@@ -5,6 +5,7 @@ import HomePage from "./pages"
 import BoatsPage from "./pages/boats"
 import OrderPage from "./pages/order"
 import OrderDetailPage from "./pages/order_detail"
+import "./assets/index.css"
 
 const router= createBrowserRouter(
   createRoutesFromElements(

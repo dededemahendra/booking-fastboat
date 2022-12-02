@@ -5,61 +5,62 @@ import { Flex, Box, Heading, Text, VStack, Image, Select as Sel  } from "@chakra
 import { Form, Formik } from "formik"
 import FormikErrorFocus from "formik-error-focus"
 import moment from "moment"
-import axios from "./../utils/axios"
-import {initialValues, validationSchema, FormSection, CheckoutButton} from "./../components/OrderPage"
-import { getOrderData, setOrderData } from "../utils/storage"
-import { getPrice } from "../utils/outletCtx"
-import { formatRupiah } from "../utils/formatRupiah"
+import axios from "../../utils/axios"
+import {initialValues, validationSchema, FormSection, CheckoutButton} from "./OrderPage"
+import { getOrderData, setOrderData } from "../../utils/storage"
+import { getPrice } from "../../utils/outletCtx"
+import { formatRupiah } from "../../utils/formatRupiah"
 
 const BoatDetail= (props)=> {
-  const {setPassenger, passenger, from, to, date, time, price}= props
+  const {setPassenger, passenger, from, to, date, time, price, type= "Departure"}= props
 
   return (
-    <Flex flexDirection="column" bgColor="#032340" paddingY="12" paddingX="10" borderRadius="md" marginBottom="7">
-      <Flex flexDirection={["column", "row"]} w="full" spacing="10" alignItems="center">
-        <Image src="boats.jpeg" width="50%" marginRight="10" />
-        
-        <VStack color="white" spacing="6">
-          <Heading size="md">Fast Boat 1</Heading>
-          <HStack>
-            <Text>Passenger</Text>
-            <Sel disabled={!setPassenger} width="24" onChange={e=> setPassenger(e.target.value)} value={passenger}>
-              {
-                [...Array(10)].map((_, k)=> (
-                  <option value={k+1} key={k}>{k+1}</option>
-                ))
-              }
-            </Sel>
-          </HStack>
-        </VStack>
+    <Box p="7" border="1px solid #fff" mb="7">
+      <Flex flexDirection="column" bgColor="#032340" py="12" px="10" radius="md">
+        <Flex flexDirection={["column", "row"]} w="full" spacing="10" alignItems="center">
+          <Image src="boats.jpeg" width={["full", "50%"]} mr={["0", "10"]} />
+          
+          <VStack color="white" spacing="6" mt={["4", "0"]}>
+            <Heading size={["lg"]}>{type} Fast Boat</Heading>
+            <HStack>
+              <Text>Passenger</Text>
+              <Sel disabled={!setPassenger} width="24" onChange={e=> setPassenger(e.target.value)} value={passenger}>
+                {
+                  [...Array(10)].map((_, k)=> (
+                    <option value={k+1} key={k}>{k+1}</option>
+                  ))
+                }
+              </Sel>
+            </HStack>
+          </VStack>
+        </Flex>
+
+        <Flex marginTop="10" justifyContent="space-around" alignItems="center" textAlign="center" textColor="#979EA6">
+          <Box>
+            <Text fontSize="18">{from}</Text>
+            <Text fontWeight="bold" color="white">{moment(date).format("ddd, MMMM-D-Y")}</Text>
+          </Box>
+
+          <Flex align="center" direction="column">
+            <Image src="https://booking.dcamelfastferry.com/images/arrow.png" w="20" />
+            <Text mt="2" fontSize="xl" color="white" fontWeight="bold">{time.split(" ").pop()}</Text>
+          </Flex>
+
+          <Box>
+            <Text fontSize="18">{to}</Text>
+            <Text fontWeight="bold" color="white">{moment(date).format("ddd, MMMM-D-Y")}</Text>
+          </Box>
+        </Flex>
+
+        <Grid textColor="#979EA6" marginTop="8" marginX="auto" templateColumns="repeat(2, 1fr)" columnGap="16" rowGap="3">
+          <GridItem fontSize="17">Ticket Fee</GridItem>
+          <GridItem fontSize="17">{formatRupiah(price)}</GridItem>
+          <GridItem fontSize="17">Total</GridItem>
+          <GridItem fontSize="17" fontWeight="bold" color="white">{formatRupiah(price * passenger)}</GridItem>
+        </Grid>
+
       </Flex>
-
-      <Flex marginTop="8" justifyContent="space-between" alignItems="center" textAlign="center" textColor="#979EA6">
-        <Box>
-          <Text>{from}</Text>
-          <Text color="white">{moment(date).format("ddd, MMMM-D-Y")}</Text>
-        </Box>
-
-        <Box alignSelf="flex-end" width="32">
-          <hr />
-          <Text marginTop="1" fontSize="lg" color="white" fontWeight="bold">{time}</Text>
-        </Box>
-
-        <Box>
-          <Text>{to}</Text>
-          <Text color="white">{moment(date).format("ddd, MMMM-D-Y")}</Text>
-        </Box>
-      </Flex>
-
-      <Grid textColor="#979EA6" marginTop="5" marginX="auto" templateColumns="repeat(2, 1fr)" columnGap="16" rowGap="3">
-        <GridItem>Ticket Fee</GridItem>
-        <GridItem>{formatRupiah(price)}</GridItem>
-
-        <GridItem>Total</GridItem>
-        <GridItem fontWeight="bold" color="white">{formatRupiah(price * passenger)}</GridItem>
-      </Grid>
-
-    </Flex>
+    </Box>
   )
 }
 
