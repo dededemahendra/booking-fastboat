@@ -8,6 +8,7 @@ import moment from "moment"
 import queryString from "query-string"
 import { getPrice } from "../utils/outletCtx"
 import { formatRupiah } from "../utils/formatRupiah"
+import { useIsDark } from "../utils/colorMode"
 
 const BoatCard = (props) => {
   const {id, canCancel, selectedId, departureTime, departureDate}= props
@@ -15,14 +16,15 @@ const BoatCard = (props) => {
   const cancelRef= useRef()
   const {from, to, passenger}= queryString.parse(location.search)
   const price= getPrice()
+  const isDark= useIsDark()
 
   return (
-    <Card w="full" bg="#33344D" margin="6" rounded="md" boxShadow="sm" p="6" marginX="auto">
+    <Card w="full" bg={isDark?"#021528":"white"} border={"1px solid #BFA888"} margin="6" rounded="md" boxShadow="sm" p="10" marginX="auto">
       <CardBody>
         <Flex direction={["column", "row"]} w="full" justify="space-between">
 
           <Flex  gap={["3", "6"]} direction={["column", "row"]} flexGrow="1">
-            <Image src="https://i0.wp.com/girleatworld.net/wp-content/uploads/2018/04/nusa-penida-kelingking-1.jpg?resize=840%2C670&ssl=1" alt="Nusa Penida" w={["full","40%"]} h={["auto", "150px"]} objectFit="contain"  alignSelf="flex-start" />
+            <Image src="https://i0.wp.com/girleatworld.net/wp-content/uploads/2018/04/nusa-penida-kelingking-1.jpg?resize=840%2C670&ssl=1" alt="Nusa Penida" w={["full","40%"]} h={["150px", ""]} objectFit="cover"  alignSelf="flex-start" />
             
             <Flex alignItems={["flex-start", "center"]} direction="column" marginTop="4" w="full" px="3">
               <Box>
@@ -36,11 +38,11 @@ const BoatCard = (props) => {
 
           <Flex direction={["row", "column-reverse"]} gap={["8", "5"]} mt={["3", "0"]} justifySelf={["flex-end"]} alignItems={["center"]}>
               <VStack>
-                <Button px="10" variant="outline" borderColor="#BFA888" onClick={()=> canCancel && selectedId!=null?props.onSelectBoat(null):props.onSelectBoat(id)}>
+                <Button px={["14", "10"]} variant="outline" borderColor="#BFA888" onClick={()=> canCancel && selectedId!=null?props.onSelectBoat(null):props.onSelectBoat(id)}>
                   <Text fontSize="17">{canCancel && selectedId!=null?"Cancel":"Select"}</Text>
                 </Button>
 
-                <Button px="10" variant="outline" borderColor="#BFA888" onClick={()=> onOpen()}>
+                <Button px={["14", "10"]} variant="outline" borderColor="#BFA888" onClick={()=> onOpen()}>
                   <Text fontSize="17">Detail</Text>
                 </Button>
               </VStack>

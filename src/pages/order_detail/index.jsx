@@ -126,9 +126,9 @@ const OrderDetailPage= ()=> {
 
   return (
     <>
-      <Flex paddingX={["8", "20"]} pt="10" flexDirection={["column", "row"]} mb="7">
+      <Flex paddingX={["8", "20" ,"24"]} pt="10" flexDirection={["column", "row"]} mb="7">
 
-        <Box width={["full", "60%"]} bg="#032340" mr={[0, 6]} mb={[8, 0]} p="7" h="fit-content">
+        <Box width={["full", "60%"]} border="1px solid #BFA888" mr={[0, 6]} mb={[8, 0]} p="7" h="fit-content">
           <PassengersDetailForm form={departureForm} initialValues={departureInitialValue} nationality={nationality} />
 
           {isReturn&&<>
@@ -138,13 +138,13 @@ const OrderDetailPage= ()=> {
           </>}
         </Box>
         
-        <VStack width={["full", "40%"]} bg="#032340" p="7" gap="3" align="left" h="fit-content">
+        <VStack width={["full", "40%"]} border="1px solid #BFA888" p="7" gap="3" align="left" h="fit-content">
           <Heading size={["lg"]} >Booking Info</Heading>  
 
           <Box>
-            <Text textAlign="center">Booked By</Text>
+            <Heading textAlign="center" size="md">Booked By</Heading>
 
-            <List borderBottom="1px solid #fff" spacing="2" mb="3">
+            <List borderBottom="1px solid #fff" spacing="3" mb="4" pb="3">
               <ListItem>Name : {orderData?.clientData.firstName} {orderData?.clientData.lastName}</ListItem>
               <ListItem>Email : {orderData?.clientData.email}</ListItem>
               <ListItem>Nationality : {orderData?.clientData.country}</ListItem>
@@ -153,9 +153,9 @@ const OrderDetailPage= ()=> {
           </Box>
 
           <Box>
-            <Text textAlign="center">Depart</Text>
+            <Heading textAlign="center" size="md">Depart</Heading>
 
-            <List borderBottom="1px solid #fff">
+            <List borderBottom="1px solid #fff" spacing="3">
               <ListItem>{orderData?.from} to {orderData?.to}</ListItem>
               <ListItem>{orderData?.departureTime}</ListItem>
               <ListItem>{moment(orderData?.departureDate).format("dddd, MMMM DD Y")}</ListItem>
@@ -172,9 +172,9 @@ const OrderDetailPage= ()=> {
           {
             isReturn&&
             <Box>
-              <Text textAlign="center">Return</Text>
+              <Heading textAlign="center" size="md">Return</Heading>
 
-              <List borderBottom="1px solid #fff">
+              <List borderBottom="1px solid #fff" spacing="3">
                 <ListItem>{orderData?.to} to {orderData?.from}</ListItem>
                 <ListItem>{orderData?.returnTime}</ListItem>
                 <ListItem>{moment(orderData?.returnDate).format("dddd, MMMM DD Y")}</ListItem>
@@ -197,10 +197,10 @@ const OrderDetailPage= ()=> {
         </VStack>
       </Flex>
 
-      <Flex flex="1" justify="center">
+      <Flex flex="1" justify="center" flexDirection={["column", "row"]} align="center" gap="5" mt="10">
         <Checkbox mr="3" onChange={e=> setAgreetnc(e.target.checked)}>I Agree to Terms and Condition</Checkbox>
 
-        <Button onClick={()=> submitForm()}>Proceed to Payment</Button>
+        <Button w="fit-content" size="lg" onClick={()=> submitForm()}>Proceed to Payment</Button>
       </Flex>
     </>
   )

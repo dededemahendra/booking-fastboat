@@ -2,6 +2,7 @@ import { Text, FormControl, FormLabel, Input, Button  } from '@chakra-ui/react'
 import { Select } from 'chakra-react-select'
 import { Field, ErrorMessage } from 'formik'
 import * as yup from 'yup'
+import { useIsDark } from '../../utils/colorMode'
 
 export const initialValues= {
   firstName: "",
@@ -21,6 +22,7 @@ export const validationSchema= yup.object().shape({
 
 export const FormSection= (props)=> {
   const {label, name, type="text", setFieldValue, nationality= []}= props
+  const isDark= useIsDark()
 
   let options= []
 
@@ -34,10 +36,10 @@ export const FormSection= (props)=> {
   }
 
   return (
-    <FormControl paddingX="4" color="white">
-      <FormLabel>{label}</FormLabel>
+    <FormControl paddingX="4" color={isDark?"white":"black"}>
+      <FormLabel >{label}</FormLabel>
       {type=="select"?
-        <Select placeholder="Select Your Nationality" name={name} options={options} onChange={e=> setFieldValue(name, e.label)}  bg="tomato" selectedOptionStyle="check" />
+        <Select placeholder="Select Your Nationality" name={name} options={options} onChange={e=> setFieldValue(name, e.label)}selectedOptionStyle="check" />
         :<Field as={Input} name={name} type={type} options={options} height="9" variant="filled" size="md" outlineColor="gray" />
       }
       <ErrorMessage marginTop="2" color="red" name={name} component={Text}   />
@@ -47,6 +49,7 @@ export const FormSection= (props)=> {
 
 export const CheckoutButton= (props)=> {
   const { text, background, onClick }= props
+  const isDark= useIsDark()
 
-  return <Button {...props} onClick={onClick} color="#fff" variant="solid" bgColor={background} width="fit-content" marginX="auto" paddingX="7" paddingY="5" _hover={{bgColor: "whatsapp.700"}}>{text}</Button>
+  return <Button onClick={onClick} color={isDark?"white":"black"} variant="outline" bgColor={background} width="fit-content" mx="auto" px="7" py="5" _hover={{bgColor: "whatsapp.700", color: "white"}} outline="2px solid #BFA888">{text}</Button>
 }

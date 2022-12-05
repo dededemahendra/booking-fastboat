@@ -10,17 +10,19 @@ import {initialValues, validationSchema, FormSection, CheckoutButton} from "./Or
 import { getOrderData, setOrderData } from "../../utils/storage"
 import { getPrice } from "../../utils/outletCtx"
 import { formatRupiah } from "../../utils/formatRupiah"
+import { useIsDark } from "../../utils/colorMode"
 
 const BoatDetail= (props)=> {
   const {setPassenger, passenger, from, to, date, time, price, type= "Departure"}= props
+  const isDark= useIsDark()
 
   return (
-    <Box p="7" border="1px solid #fff" mb="7">
-      <Flex flexDirection="column" bgColor="#032340" py="12" px="10" radius="md">
+    <Box p="7" border="1px solid #BFA888" mb="7">
+      <Flex flexDirection="column" bg={isDark?"":"white"} py="12" px="10" radius="md">
         <Flex flexDirection={["column", "row"]} w="full" spacing="10" alignItems="center">
           <Image src="boats.jpeg" width={["full", "50%"]} mr={["0", "10"]} />
           
-          <VStack color="white" spacing="6" mt={["4", "0"]}>
+          <VStack color={isDark?"white":"black"} spacing="6" mt={["4", "0"]}>
             <Heading size={["lg"]}>{type} Fast Boat</Heading>
             <HStack>
               <Text>Passenger</Text>
@@ -35,28 +37,28 @@ const BoatDetail= (props)=> {
           </VStack>
         </Flex>
 
-        <Flex marginTop="10" justifyContent="space-around" alignItems="center" textAlign="center" textColor="#979EA6">
+        <Flex marginTop="10" justifyContent="space-around" alignItems="center" textAlign="center" color={isDark?"white":"black"}>
           <Box>
             <Text fontSize="18">{from}</Text>
-            <Text fontWeight="bold" color="white">{moment(date).format("ddd, MMMM-D-Y")}</Text>
+            <Text fontWeight="bold">{moment(date).format("ddd, MMMM-D-Y")}</Text>
           </Box>
 
           <Flex align="center" direction="column">
             <Image src="https://booking.dcamelfastferry.com/images/arrow.png" w="20" />
-            <Text mt="2" fontSize="xl" color="white" fontWeight="bold">{time.split(" ").pop()}</Text>
+            <Text mt="2" fontSize="xl"fontWeight="bold">{time.split(" ").pop()}</Text>
           </Flex>
 
           <Box>
             <Text fontSize="18">{to}</Text>
-            <Text fontWeight="bold" color="white">{moment(date).format("ddd, MMMM-D-Y")}</Text>
+            <Text fontWeight="bold">{moment(date).format("ddd, MMMM-D-Y")}</Text>
           </Box>
         </Flex>
 
-        <Grid textColor="#979EA6" marginTop="8" marginX="auto" templateColumns="repeat(2, 1fr)" columnGap="16" rowGap="3">
+        <Grid  textColor={isDark?"#979EA6":"black"} marginTop="8" marginX="auto" templateColumns="repeat(2, 1fr)" columnGap="16" rowGap="3">
           <GridItem fontSize="17">Ticket Fee</GridItem>
           <GridItem fontSize="17">{formatRupiah(price)}</GridItem>
           <GridItem fontSize="17">Total</GridItem>
-          <GridItem fontSize="17" fontWeight="bold" color="white">{formatRupiah(price * passenger)}</GridItem>
+          <GridItem fontSize="17" fontWeight="bold" color={isDark?"white":"black"}>{formatRupiah(price * passenger)}</GridItem>
         </Grid>
 
       </Flex>
@@ -77,6 +79,7 @@ const OrderPage= ()=> {
 
   const navigate= useNavigate()
   const price= getPrice()
+  const isDark= useIsDark()
 
   async function getNationality() {
     try {
@@ -121,11 +124,11 @@ const OrderPage= ()=> {
 
   return (
     <>
-      <Flex paddingX={["8", "20"]} pt="10" flexDirection={["column", "row"]} textColor="black">
+      <Flex px={["8", "20", "24"]} pt="10" flexDirection={["column", "row"]} color="black">
 
-        <Box width={["full", "35%"]} marginRight="16" marginBottom={["5", "0"]} position="sticky" height="full">
-          <Heading size={"lg"} color="white" marginBottom="5">Booked By</Heading>
-          <Box borderRadius="md" bgColor="#032340" padding="7">
+        <Box width={["full", "35%"]} mr="16" mb={["5", "0"]} position="sticky" height="full">
+          <Heading size={"lg"} color={isDark?"white":""} marginBottom="5">Booked By</Heading>
+          <Box borderRadius="md" bgColor={isDark?"":"white"} border="1px solid #BFA888" padding="7">
             <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={e=> formSubmit(e)}>
               {
                 ({handleSubmit, setFieldValue})=> (
@@ -154,28 +157,28 @@ const OrderPage= ()=> {
         </Box>
 
         <Box width={["full", "65%"]}>
-          <Heading size={"lg"} color="white" marginBottom="5">Booking Cart</Heading>
+          <Heading size={"lg"} color={isDark?"white":"black"} marginBottom="5">Booking Cart</Heading>
 
           <BoatDetail setPassenger={setPassenger} passenger={passenger} from={from} to={to} date={departureDate} time={departureTime} price={price} />
 
           {returnDate&&<BoatDetail passenger={passenger} from={to} to={from} date={returnDate} time={returnTime} price={price} />}
 
-          <Flex bgColor="#032340" textAlign="center"  py="9" justifyContent="center">
+          <Flex bgColor={isDark?"":"white"} border={`1px solid #BFA888`} textAlign="center" py="9" justifyContent="center" color={isDark?"white":"black"}>
             <Grid templateColumns="repeat(2, 1fr)" columnGap="10" rowGap="5">
               <GridItem>
-                <Text color="white" fontSize="xl" fontWeight="bold">Grand Total</Text>
+                <Text fontSize="xl" fontWeight="bold">Grand Total</Text>
               </GridItem>
 
               <GridItem>
-                <Text color="white" fontSize="xl" fontWeight="bold">{formatRupiah(price * passenger * (returnDate?2:1))}</Text>
+                <Text fontSize="xl" fontWeight="bold">{formatRupiah(price * passenger * (returnDate?2:1))}</Text>
               </GridItem>
 
               <GridItem colSpan={["2", "1"]}>
-                <CheckoutButton onClick={()=> navigate(-1)} text="Book Other Trip." background="#4A60A1"  />
+                <CheckoutButton onClick={()=> navigate(-1)} text="Book Other Trip."   />
               </GridItem>
 
               <GridItem colSpan={["2", "1"]}>
-                <CheckoutButton onClick={()=> btnSubmit.current.click()} text="Checkout" background="whatsapp.600"   />
+                <CheckoutButton onClick={()=> btnSubmit.current.click()} text="Checkout"    />
               </GridItem>
 
             </Grid>
