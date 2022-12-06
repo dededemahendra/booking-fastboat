@@ -14,7 +14,7 @@ const router = createBrowserRouter(
       <Route path="/boats" element={<BoatsPage />} />
       <Route path="/order" element={<OrderPage />} />
       <Route path="/order_detail" element={<OrderDetailPage />} />
-      <Route path="login_admin" element={<LoginAdmin />} />
+      <Route path="/login_admin" element={<LoginAdmin />} />
     </Route>
   )
 );
