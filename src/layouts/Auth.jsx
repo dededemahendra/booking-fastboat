@@ -11,7 +11,6 @@ import theme from "../styles/theme";
 
 export default function Pages(props) {
   const { ...rest } = props;
-  // ref for the wrapper div
   const wrapper = React.createRef();
   React.useEffect(() => {
     document.body.style.overflow = "unset";
@@ -82,7 +81,7 @@ export default function Pages(props) {
           <Box ref={wrapper} w="100%">
             <Switch>
               {getRoutes(routes)}
-              <Redirect from="/auth" to="/auth/login-page" />
+              <Redirect from="/auth" to="/auth/signin" />
             </Switch>
           </Box>
         </Box>
