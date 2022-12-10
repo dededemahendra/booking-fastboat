@@ -10,7 +10,7 @@ const HomePage= ()=> {
     <>
       <Banner />
 
-      <Box textAlign={"center"} marginTop={"10"} paddingX={["10", "32", "40"]} bgImage="BGPulau.png" bgRepeat="no-repeat" backgroundPosition="center" position="relative" pt="8">
+      <Box textAlign={"center"} marginTop={"10"} paddingX={["10", "32", "40"]} bgImage={isDark?"/BGPulau.png":"/BgPutihBertekstur.jpg"} bgRepeat="no-repeat" backgroundPosition="center" position="relative" pt="8">
         <Text position="absolute" top="0" left="50%" transform="translateX(-50%)" opacity=".5" fontSize="6xl" fontWeight="bold" color="#BFA888" zIndex="base">FastBoat</Text>
 
         <Box pos="relative" zIndex="dropdown" color={isDark?"#BFA888":"black"}>

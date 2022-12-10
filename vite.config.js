@@ -8,12 +8,9 @@ export default defineConfig({
     port: 3000,
     proxy: {
       "/api": "http://msib.dcamelfastferry.com/api.php",
-      "/edge-func/": {
+      "/payment-func": {
         target: "https://vwgvjupdwlzhodrsdhdn.functions.supabase.co/",
         changeOrigin: true,
-        rewrite: path=> {
-          return path.split("/").splice(2).join("/")
-        }
       }
     }
   }

@@ -99,7 +99,7 @@ const OrderDetailPage= ()=> {
     try {
       onOpen()
 
-      const {data}= await axios.post("/edge-func/payment-func", {
+      const {data}= await axios.post("/payment-func", {
         ...payment_details
       })
 
