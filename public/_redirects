@@ -1,4 +1,4 @@
 /api http://msib.dcamelfastferry.com/api.php 200
-/payment-func https://vwgvjupdwlzhodrsdhdn.functions.supabase.co/ 200
+/payment-func https://vwgvjupdwlzhodrsdhdn.functions.supabase.co 200
 
 /* /index.html 200
