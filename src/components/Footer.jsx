@@ -1,4 +1,4 @@
-import { Grid, Heading, Text, Box, VStack, Flex, Link } from "@chakra-ui/react";
+import { Image, Text, Box, VStack, Flex, Link } from "@chakra-ui/react";
 
 function DefaultText({ children }) {
   return <Text color="gray">{children}</Text>;
@@ -6,10 +6,10 @@ function DefaultText({ children }) {
 
 const Footer = () => {
   return (
-    <Flex px={["10", "36" ]} pt={"9"} pb={"14"} backgroundColor={"#192A39"} justifyContent="space-between" flexDirection={["column", "row"]} id="footer" rowGap={["8", "0"]}>
+    <Flex  pt={"9"} pb={"14"} backgroundColor={"#192A39"} justifyContent="space-around" flexDirection={["column", "column", "row"]} id="footer" rowGap={["8", "0"]}>
 
       <Flex alignItems={["flex-start", "center"]} direction={"column"} gap={["2", "5"]}>
-        <Text fontFamily="Sanchez" fontSize={["3xl", "4xl"]} color="#BFA888">Fast Boat To Paradise</Text>
+        <Text fontFamily="Sanchez" fontSize={["3xl", "3xl", "4xl"]} color="#BFA888">Fast Boat To Paradise</Text>
         <Text color="white">Copright &copy; 2022 C22-033 Company</Text>
       </Flex>
 
@@ -22,13 +22,9 @@ const Footer = () => {
         </VStack>
       </Box>
 
-      <Box>
+      <Box w="60">
         <Text fontSize={"lg"} fontWeight={"bold"} color="white" marginBottom={"4"}>Payment</Text>
-        <Grid alignItems={"start"} rowGap="3">
-          <DefaultText>Privacy Policy</DefaultText>
-          <DefaultText>Terms and Condition</DefaultText>
-          <DefaultText>Contact Us</DefaultText>
-        </Grid>
+        <Image src="payments.png" w="full" objectFit="scale-down" m={0} />
       </Box>
 
       <Box paddingRight="3">

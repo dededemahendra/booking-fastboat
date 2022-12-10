@@ -7,6 +7,7 @@ import { Box, Flex, Button, Input, Checkbox, useToast, Select, Text } from "@cha
 import axios from "./../utils/axios";
 import querystring from 'query-string'
 import { useIsDark } from "../utils/colorMode";
+import { getDestinations } from "../utils/globalData";
 
 function FormControl(props) {
   const {title, children, showBorder= false}= props
@@ -43,9 +44,7 @@ const SearchBar = (props) => {
 
   async function getAvailableBoats() {
     try {
-      const { data } = await axios.get("/api?apicall=loadtrip");
-
-      const harbour = data.map((v) => v.rute);
+      const harbour = getDestinations();
 
       setAvailableHarbours(harbour);
       setAvailableDestinationHarbors(harbour)
@@ -149,9 +148,7 @@ const SearchBar = (props) => {
       </FormControl>
 
       <FormControl showBorder={true}>
-        <Text marginBottom={"2"} fontWeight={"bold"}>
-          Return
-        </Text>
+        <Text marginBottom={"2"} fontWeight={"bold"}> Return </Text>
         {isReturnChecked && <Input marginRight="3" type="date" variant="unstyled" value={returnDate} min={returnDate} w={["full", "fit-content"]} onInput={(e) => setReturnDate(e.target.value)} />}
         <Checkbox isChecked={isReturnChecked} onChange={(e) => setIsReturnCheked(e.target.checked)}>Return</Checkbox>
       </FormControl>

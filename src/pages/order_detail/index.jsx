@@ -1,20 +1,24 @@
 import { useEffect, useState } from "react"
 import { Heading, Flex, Box, VStack, List, ListItem } from "@chakra-ui/layout"
-import { Text, Checkbox, Button,  useToast } from "@chakra-ui/react"
+import { Text, Checkbox, Button,  useToast, useDisclosure } from "@chakra-ui/react"
 import { useFormik } from "formik"
 import { useNavigate } from "react-router-dom"
+import emailjs from '@emailjs/browser'
 import axios from "../../utils/axios"
-import { getOrderData } from "../../utils/storage"
+import { getOrderData, setOrderData } from "../../utils/storage"
 import moment from "moment"
 import { formatRupiah } from "../../utils/formatRupiah"
-import { getPrice } from "../../utils/outletCtx"
-import { validationSchema, PassengersDetailForm } from "./OrderDetailComponents"
+import { getPrice } from "../../utils/globalData"
+import { validationSchema, PassengersDetailForm, LoadingAlert } from "./OrderDetailComponents"
 
 const OrderDetailPage= ()=> {
   const orderData= getOrderData()
-  const [agreetnc, setAgreetnc]= useState(false)
   const isReturn= !!orderData?.returnDate
+
+  const [agreetnc, setAgreetnc]= useState(false)
   const [nationality, setNationality]= useState([])
+
+  const {isOpen, onClose, onOpen} = useDisclosure()
   const price= getPrice()
   const navigate= useNavigate()
   const toast= useToast()
@@ -31,13 +35,11 @@ const OrderDetailPage= ()=> {
   const departureForm= useFormik({
     initialValues: departureInitialValue,
     validationSchema,
-    onSubmit: ()=> null
   })
 
   const returnForm= useFormik({
     initialValues: departureInitialValue,
     validationSchema,
-    onSubmit: ()=> null
   })
 
   async function submitForm() {
@@ -68,12 +70,13 @@ const OrderDetailPage= ()=> {
       phone: orderData?.clientData.phone
     }
       
+    
     departureForm.handleSubmit()
-    let valid= departureForm.isValid
+    let valid= departureForm.isValid &&  Object.keys(departureForm.touched).length > 0 
 
     if (isReturn) {
       returnForm.handleSubmit()
-      valid= returnForm.isValid
+      valid= returnForm.isValid &&  Object.keys(returnForm.touched).length > 0
 
       payment_details.item_details.push({
         ...item_detail,
@@ -81,21 +84,39 @@ const OrderDetailPage= ()=> {
       })
     }
 
-    if (!isValid) {
-      return
+    if (!valid) {
+      window.scroll(0, 0)
+
+      return toast({
+        status: "warning",
+        position: "top-right",
+        isClosable: true,
+        title: "Please fill out all passanger information.",
+        duration: 2000
+      })
     }
 
     try {
-      const {data}= await axios.post("/edge-func/test-func", {
+      onOpen()
+
+      const {data}= await axios.post("/edge-func/payment-func", {
         ...payment_details
       })
 
+      onClose()
+
       window?.snap.pay(data.token, {
         onSuccess: payload=> {
-          console.log(payload)
+          emailjs.send("service_fokhgy8", "template_jf6cx6i", {
+            to: orderData?.clientData.email,
+          }, "73ipGvvk1l1hXGRzr")
+          
+          setOrderData(null)
+          navigate("/")
         }
       })
     } catch (error) {
+      onClose()
       console.log(error);
     }
   }
@@ -121,7 +142,6 @@ const OrderDetailPage= ()=> {
       navigate("/")
     }
     getNationality()
-    // departureForm.handleSubmit()
   }, [])
 
   return (
@@ -136,6 +156,7 @@ const OrderDetailPage= ()=> {
               <Button onClick={()=> returnForm.setValues(departureForm.values)}>Same as Above</Button>
             </PassengersDetailForm>
           </>}
+
         </Box>
         
         <VStack width={["full", "40%"]} border="1px solid #BFA888" p="7" gap="3" align="left" h="fit-content">
@@ -196,6 +217,8 @@ const OrderDetailPage= ()=> {
           </Flex>
         </VStack>
       </Flex>
+      
+      <LoadingAlert isOpen={isOpen} />
 
       <Flex flex="1" justify="center" flexDirection={["column", "row"]} align="center" gap="5" mt="10">
         <Checkbox mr="3" onChange={e=> setAgreetnc(e.target.checked)}>I Agree to Terms and Condition</Checkbox>

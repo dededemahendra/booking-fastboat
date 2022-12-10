@@ -9,7 +9,7 @@ export default defineConfig({
     proxy: {
       "/api": "http://msib.dcamelfastferry.com/api.php",
       "/edge-func/": {
-        target: "https://pikiofmcevitafcfjrpq.functions.supabase.co/",
+        target: "https://vwgvjupdwlzhodrsdhdn.functions.supabase.co/",
         changeOrigin: true,
         rewrite: path=> {
           return path.split("/").splice(2).join("/")

@@ -20,3 +20,22 @@ export function getOrderData() {
 export function setOrderData(order) {
    ReactSession.set("order", JSON.stringify(order))
 }
+
+export function getDestinationData() {
+  try {
+    const destination= ReactSession.get("destination")
+
+    if (!destination) {
+      return null
+    }
+  
+    return JSON.parse(destination)
+
+  } catch {
+    return null
+  }
+}
+
+export function setDestinationData(destination) {
+   ReactSession.set("destination", JSON.stringify(destination))
+}

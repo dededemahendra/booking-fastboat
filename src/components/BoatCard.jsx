@@ -6,7 +6,7 @@ import { AlertDialog, useDisclosure, AlertDialogOverlay, AlertDialogBody, AlertD
 import { useRef } from "react"
 import moment from "moment"
 import queryString from "query-string"
-import { getPrice } from "../utils/outletCtx"
+import { getPrice } from "../utils/globalData"
 import { formatRupiah } from "../utils/formatRupiah"
 import { useIsDark } from "../utils/colorMode"
 
@@ -38,16 +38,16 @@ const BoatCard = (props) => {
 
           <Flex direction={["row", "column-reverse"]} gap={["8", "5"]} mt={["3", "0"]} justifySelf={["flex-end"]} alignItems={["center"]}>
               <VStack>
-                <Button px={["14", "10"]} variant="outline" borderColor="#BFA888" onClick={()=> canCancel && selectedId!=null?props.onSelectBoat(null):props.onSelectBoat(id)}>
+                <Button px={["10"]} variant="outline" borderColor="#BFA888" onClick={()=> canCancel && selectedId!=null?props.onSelectBoat(null):props.onSelectBoat(id)}>
                   <Text fontSize="17">{canCancel && selectedId!=null?"Cancel":"Select"}</Text>
                 </Button>
 
-                <Button px={["14", "10"]} variant="outline" borderColor="#BFA888" onClick={()=> onOpen()}>
+                <Button px={["10"]} variant="outline" borderColor="#BFA888" onClick={()=> onOpen()}>
                   <Text fontSize="17">Detail</Text>
                 </Button>
               </VStack>
 
-              <Heading fontSize="24">{formatRupiah(price * passenger)}</Heading>
+              <Heading fontSize={["20", "24"]}>{formatRupiah(price * passenger)}</Heading>
 
               <AlertDialog isOpen={isOpen} onClose={onClose} isCentered motionPreset="slideInBottom" leastDestructiveRef={cancelRef}>
                 <AlertDialogOverlay/>

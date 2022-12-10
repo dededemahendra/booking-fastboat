@@ -1,6 +1,5 @@
 import { Text, FormControl, FormLabel, Input, Button  } from '@chakra-ui/react'
 import { Select } from 'chakra-react-select'
-import { Field, ErrorMessage } from 'formik'
 import * as yup from 'yup'
 import { useIsDark } from '../../utils/colorMode'
 
@@ -21,7 +20,7 @@ export const validationSchema= yup.object().shape({
 })
 
 export const FormSection= (props)=> {
-  const {label, name, type="text", setFieldValue, nationality= []}= props
+  const {label, name, type="text", form, nationality= []}= props
   const isDark= useIsDark()
 
   let options= []
@@ -39,10 +38,11 @@ export const FormSection= (props)=> {
     <FormControl paddingX="4" color={isDark?"white":"black"}>
       <FormLabel >{label}</FormLabel>
       {type=="select"?
-        <Select placeholder="Select Your Nationality" name={name} options={options} onChange={e=> setFieldValue(name, e.label)}selectedOptionStyle="check" />
-        :<Field as={Input} name={name} type={type} options={options} height="9" variant="filled" size="md" outlineColor="gray" />
+        <Select placeholder="Select Your Nationality" name={name} options={options} onChange={e=> form.setFieldValue(name, e.label)}selectedOptionStyle="check" onBlur={form.handleBlur} />
+        :<Input height="9" name={name} variant="filled" size="md" outlineColor="gray" value={form.values[name]} onChange={form.handleChange} onBlur={form.handleBlur}  />
       }
-      <ErrorMessage marginTop="2" color="red" name={name} component={Text}   />
+
+      {(form.errors[name] && form.touched[name])&&<Text color="red">* {form.errors[name]}</Text>}
     </FormControl>
   )
 }

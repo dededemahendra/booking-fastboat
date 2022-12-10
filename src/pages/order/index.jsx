@@ -1,14 +1,13 @@
 import { useRef, useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { HStack, Grid, GridItem } from "@chakra-ui/layout"
-import { Flex, Box, Heading, Text, VStack, Image, Select as Sel  } from "@chakra-ui/react"
-import { Form, Formik } from "formik"
-import FormikErrorFocus from "formik-error-focus"
+import { Flex, Box, Heading, Text, VStack, Image, Select as Sel, useToast  } from "@chakra-ui/react"
+import {  useFormik } from "formik"
 import moment from "moment"
 import axios from "../../utils/axios"
 import {initialValues, validationSchema, FormSection, CheckoutButton} from "./OrderPage"
 import { getOrderData, setOrderData } from "../../utils/storage"
-import { getPrice } from "../../utils/outletCtx"
+import { getPrice } from "../../utils/globalData"
 import { formatRupiah } from "../../utils/formatRupiah"
 import { useIsDark } from "../../utils/colorMode"
 
@@ -75,11 +74,17 @@ const OrderPage= ()=> {
   const [nationality, setNationality]= useState([])
   const [returnDate, setReturnDate]= useState(null) 
   const [returnTime, setReturnTime]= useState(null)
-  const btnSubmit= useRef(null)
 
   const navigate= useNavigate()
   const price= getPrice()
   const isDark= useIsDark()
+  const toast= useToast()
+
+  const form= useFormik({
+    initialValues,
+    validationSchema,
+    validateOnBlur: false,
+  })
 
   async function getNationality() {
     try {
@@ -91,10 +96,23 @@ const OrderPage= ()=> {
     }
   }
 
-  function formSubmit(values) {
+
+  function orderBoat() {
+    if (!(form.isValid && Object.keys(form.touched).length>0)) {
+      window.scroll(0, 0)
+
+      return toast({
+        status: "warning",
+        title: "Warning",
+        position: "top-right",
+        description: "Please fill out all form.",
+        duration: 2000
+      })
+    }
+
     setOrderData({
       ...getOrderData(),
-      clientData: values,
+      clientData: form.values,
       passenger,
     })
 
@@ -124,39 +142,24 @@ const OrderPage= ()=> {
 
   return (
     <>
-      <Flex px={["8", "20", "24"]} pt="10" flexDirection={["column", "row"]} color="black">
+      <Flex px={["8", "20", "24"]} pt="10" flexDirection={["column", "column", "row"]} color="black">
 
-        <Box width={["full", "35%"]} mr="16" mb={["5", "0"]} position="sticky" height="full">
+        <Box width={["full", "full", "35%"]} mr="16" mb={["5", "5", "0"]} position="sticky" height="full">
           <Heading size={"lg"} color={isDark?"white":""} marginBottom="5">Booked By</Heading>
-          <Box borderRadius="md" bgColor={isDark?"":"white"} border="1px solid #BFA888" padding="7">
-            <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={e=> formSubmit(e)}>
-              {
-                ({handleSubmit, setFieldValue})=> (
-                  <Form onSubmit={handleSubmit}>
-                    <VStack spacing={4}>
-                      <FormSection label="First Name" name="firstName" />
-                      <FormSection label="Last Name" name="lastName" />
-                      <FormSection label="Email" name="email" type="email" />
-                      <FormSection label="country" name="country" type="select" nationality={nationality} setFieldValue={setFieldValue}  />
-                      <FormSection label="Phone" name="phone" type="number" />
 
-                      <button style={{visibility: "hidden"}} ref={btnSubmit} type="submit">send</button>
-                      
-                      <FormikErrorFocus
-                        offset={60}
-                        align={"top"}
-                        ease={"linear"}
-                        duration={500}
-                      />
-                    </VStack>
-                  </Form>
-                )
-              }
-            </Formik>
+          <Box borderRadius="md" bgColor={isDark?"":"white"} border="1px solid #BFA888" padding="7">
+
+            <VStack spacing={4}>
+              <FormSection label="First Name" name="firstName" form={form} />
+              <FormSection label="Last Name" name="lastName" form={form} />
+              <FormSection label="Email" name="email" type="email" form={form} />
+              <FormSection label="country" name="country" type="select" nationality={nationality} form={form} />
+              <FormSection label="Phone" name="phone" type="number" form={form} />
+            </VStack>
           </Box>
         </Box>
 
-        <Box width={["full", "65%"]}>
+        <Box width={["full", "full", "65%"]}>
           <Heading size={"lg"} color={isDark?"white":"black"} marginBottom="5">Booking Cart</Heading>
 
           <BoatDetail setPassenger={setPassenger} passenger={passenger} from={from} to={to} date={departureDate} time={departureTime} price={price} />
@@ -178,7 +181,7 @@ const OrderPage= ()=> {
               </GridItem>
 
               <GridItem colSpan={["2", "1"]}>
-                <CheckoutButton onClick={()=> btnSubmit.current.click()} text="Checkout"    />
+                <CheckoutButton onClick={()=> orderBoat()} text="Checkout"    />
               </GridItem>
 
             </Grid>

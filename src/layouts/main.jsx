@@ -5,8 +5,6 @@ import Header from "./../components/Header"
 import Footer from "./../components/Footer"
 import { ScrollRestoration } from "react-router-dom"
 
-const price= 200000
-
 const MainLayout= ()=> {
   const [isLoading, setIsLoading]= useState(true)
 
@@ -22,16 +20,16 @@ const MainLayout= ()=> {
     </Flex>
   } else {
     return (
-      <>
+      <div>
         <ScrollRestoration/>
         <Header/>
   
-        <Box paddingTop={"80px"} minH={"100vh"} width={"full"} mb="16">
-          <Outlet context={{price}} />
+        <Box paddingTop={"80px"} minH={"100vh"} w="full" mb="16">
+          <Outlet />
         </Box>
   
         <Footer/>
-      </>
+      </div>
     )
   }
 

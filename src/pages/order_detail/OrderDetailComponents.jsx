@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
-import { Box } from "@chakra-ui/layout"
 import { Text, Input, Radio, RadioGroup, FormControl, FormLabel, Heading, Accordion, AccordionButton, AccordionPanel, AccordionIcon, AccordionItem } from "@chakra-ui/react"
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody } from '@chakra-ui/react'
 import { Select } from "chakra-react-select"
 import * as yup from "yup"
 
@@ -15,7 +15,7 @@ export const validationSchema= yup.object().shape({
 
 export const ErrorMessage= ({form, index, keys, text})=> {
   try {
-    if (form.errors.passengers?.at(index)[keys] && form.touched.passengers?.at(index)[keys]) {
+    if (form.errors.passengers?.at(index)[keys] && form.touched?.passengers?.at(index)[keys]) {
       return <Text color="red" mt="2">*{text} is Required</Text>
     } 
     throw null
@@ -52,7 +52,7 @@ export const ReturnSelectNationality= (props)=> {
     setIsChanged(true)
   }
 
-  return <Select options={nationality} onInputChange={e=> setInputValue(e)} inputValue={inputValue} onChange={e=> changeCountry(e.label)}></Select>
+  return <Select options={nationality} onInputChange={e=> setInputValue(e)} inputValue={inputValue} onChange={e=> changeCountry(e.label)} {...props}></Select>
 }
 
 export const PassengersDetailForm= props=> {
@@ -74,15 +74,15 @@ export const PassengersDetailForm= props=> {
           initialValues.passengers.map((_, k)=> (
             <AccordionPanel key={k}>
               <FormInput title="Fullname">
-                <Input type="text" name={`passengers.${k}.fullname`} value={form.values.passengers[k].fullname} onChange={form.handleChange} />
+                <Input type="text" name={`passengers.${k}.fullname`} value={form.values.passengers[k].fullname} onChange={form.handleChange} onBlur={form.handleBlur} />
                 <ErrorMessage form={form} index={k} keys="fullname" text="Fullname" />
               </FormInput>
 
               <FormInput title="Country">
                 {
                   isReturnForm?
-                  <ReturnSelectNationality nationality={nationality} returnForm={form} k={k} />:
-                  <Select options={nationality} onChange={e=> form.setFieldValue(`passengers.${k}.nationality`, e.label)}></Select>
+                  <ReturnSelectNationality nationality={nationality} returnForm={form} k={k} onBlur={form.handleBlur} />:
+                  <Select options={nationality} onChange={e=> form.setFieldValue(`passengers.${k}.nationality`, e.label)} onBlur={form.handleBlur}></Select>
                 }
                 <ErrorMessage form={form} index={k} keys="nationality" text="Nationality" />
               </FormInput>
@@ -105,5 +105,22 @@ export const PassengersDetailForm= props=> {
 
       </AccordionItem>
     </Accordion>
+  )
+}
+
+export const LoadingAlert= ({isOpen})=> {
+  return (
+    <Modal isOpen={isOpen}>
+      <ModalOverlay/>
+
+      <ModalContent>
+        <ModalHeader>Loading</ModalHeader>
+
+        <ModalBody>
+          <Text>Please wait</Text>
+          <Text>Do not close or reload the until payment information appeared.</Text>
+        </ModalBody>
+      </ModalContent>
+    </Modal>
   )
 }
