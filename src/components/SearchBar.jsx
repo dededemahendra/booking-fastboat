@@ -13,10 +13,10 @@ function FormControl(props) {
   const {title, children, showBorder= false}= props
   const isDark= useIsDark()
   
-  const rightBorder= isDark?["", "1px solid #fff"]:["", "1px solid #404040"]
+  const rightBorder= ["", "1px solid #fff"]
 
   return (
-    <Flex w={["full", "33.33%"]} borderRight={showBorder?rightBorder:""} px="4" mb={["6", "4"]} align="center">
+    <Flex w={["full", "full", "33.33%"]} borderRight={showBorder?rightBorder:""} px="4" mb={["6", "4"]} align="center">
       <Box w="full">
         <Text marginBottom={"2"} fontWeight={"bold"}>{title}</Text>
         {children}
@@ -44,7 +44,7 @@ const SearchBar = (props) => {
 
   async function getAvailableBoats() {
     try {
-      const harbour = getDestinations();
+      const harbour = await getDestinations();
 
       setAvailableHarbours(harbour);
       setAvailableDestinationHarbors(harbour)
@@ -87,7 +87,6 @@ const SearchBar = (props) => {
   }
 
   useEffect(()=> {
-    
     getAvailableBoats()
 
     if (getSearchParams) {
@@ -110,12 +109,12 @@ const SearchBar = (props) => {
   }, [from]);
 
   return (
-    <Flex w={["85%", "80%" ]} bgColor={isDark?"#021526":"#F4F2ED"} mt={"10"} px={["6", "14"]} paddingY={"7"} borderRadius={"md"} color={isDark?"white":"black"} flexWrap="wrap" border="1px" direction={["column", "row"]}>
+    <Flex w={["85%", "85%", "80%"]} bg={isDark?"#021526":"#f4f2ed"} mt={"10"} px={["6", "14"]} paddingY={"7"} borderRadius={"md"} color={isDark?"white":"black"} flexWrap="wrap" border="1px" direction={["column", "column", "row"]} >
 
       <FormControl title="from" showBorder={true}>
-        <Select variant={"unstyled"} w={["full", "fit-content"]} placeholder="Choose Departure Harbour" color={isDark?"white":"black"} value={from} onChange={(e) => setFrom(e.target.value)}>
+        <Select variant={"unstyled"} w={["full", "fit-content"]} placeholder="Choose Departure Harbour"  value={from} onChange={(e) => setFrom(e.target.value)}>
           {availableHarbours.map((v, k) => (
-            <option value={v} key={k}>
+            <option value={v} key={k} >
               {v}
             </option>
           ))}
@@ -123,7 +122,7 @@ const SearchBar = (props) => {
       </FormControl>
 
       <FormControl title="To" showBorder={true} >
-        <Select color={isDark?"white":"black"} variant={"unstyled"} w={["full", "fit-content"]} value={to} onChange={(e) => setTo(e.target.value)}>
+        <Select variant={"unstyled"} w={["full", "fit-content"]} value={to} onChange={(e) => setTo(e.target.value)}>
           <option value="">Choose Destination</option>
           {availableDestinationHarbors.map((v, k) => (
             <option value={v} key={k}>
@@ -134,17 +133,17 @@ const SearchBar = (props) => {
       </FormControl>
 
       <FormControl title="Passenger">
-          <Select w={["full", "fit-content"]} color={isDark?"white":"black"} variant={"unstyled"} value={passenger} onChange={(e) => setPassenger(e.target.value)}>
-            {[...Array(10)].map((_, k) => (
-              <option value={k + 1} key={k}>
-                {k + 1} Person
-              </option>
-            ))}
-          </Select> 
+        <Select w={["full", "fit-content"]} variant={"unstyled"} value={passenger} onChange={(e) => setPassenger(e.target.value)}>
+          {[...Array(10)].map((_, k) => (
+            <option value={k + 1} key={k}>
+              {k + 1} Person
+            </option>
+          ))}
+        </Select> 
       </FormControl>
 
       <FormControl showBorder={true} title="Departure">
-        <Input type="date"  variant="unstyled" value={departureDate} min={departureDate} w={["full", "fit-content"]} onInput={(e) => setDepartureDate(e.target.value)} />
+        <Input type="date" variant="unstyled" value={departureDate} min={departureDate} w={["full", "fit-content"]} onInput={(e) => setDepartureDate(e.target.value)} />
       </FormControl>
 
       <FormControl showBorder={true}>

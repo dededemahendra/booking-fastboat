@@ -21,12 +21,12 @@ const BoatCard = (props) => {
   return (
     <Card w="full" bg={isDark?"#021528":"white"} border={"1px solid #BFA888"} margin="6" rounded="md" boxShadow="sm" p="10" marginX="auto">
       <CardBody>
-        <Flex direction={["column", "row"]} w="full" justify="space-between">
+        <Flex direction={["column", "column", "row"]} w="full" justify="space-between">
 
-          <Flex  gap={["3", "6"]} direction={["column", "row"]} flexGrow="1">
-            <Image src="https://i0.wp.com/girleatworld.net/wp-content/uploads/2018/04/nusa-penida-kelingking-1.jpg?resize=840%2C670&ssl=1" alt="Nusa Penida" w={["full","40%"]} h={["150px", ""]} objectFit="cover"  alignSelf="flex-start" />
+          <Flex  gap={["3", "6"]} direction={["column", "column", "row"]} flexGrow="1">
+            <Image src="/Kapal3.jpg" alt="Nusa Penida" w={["full", "full", "40%"]} h={["150px", "200px", ""]} objectFit="cover"  alignSelf="flex-start" />
             
-            <Flex alignItems={["flex-start", "center"]} direction="column" marginTop="4" w="full" px="3">
+            <Flex alignItems={["flex-start", "flex-start", "center"]} direction="column" marginTop="4" w="full" px="3">
               <Box>
                 <Heading fontSize="25" marginBottom={["2", "3"]}>Fast Boat</Heading>
                 <Text fontSize="lg">{from} - {to}</Text>
@@ -36,13 +36,13 @@ const BoatCard = (props) => {
             </Flex>
           </Flex>
 
-          <Flex direction={["row", "column-reverse"]} gap={["8", "5"]} mt={["3", "0"]} justifySelf={["flex-end"]} alignItems={["center"]}>
+          <Flex direction={["column-reverse", "row" ,"column-reverse"]} gap={["8", "5"]} mt={["5", "5", "0"]} justifySelf={["flex-start", "flex-end"]} alignItems={["center"]} justifyContent={["flex-start", "space-between", "flex-start"]}>
               <VStack>
-                <Button px={["10"]} variant="outline" borderColor="#BFA888" onClick={()=> canCancel && selectedId!=null?props.onSelectBoat(null):props.onSelectBoat(id)}>
+                <Button px={["16", "20", "10"]} variant="outline" borderColor="#BFA888" onClick={()=> canCancel && selectedId!=null?props.onSelectBoat(null):props.onSelectBoat(id)}>
                   <Text fontSize="17">{canCancel && selectedId!=null?"Cancel":"Select"}</Text>
                 </Button>
 
-                <Button px={["10"]} variant="outline" borderColor="#BFA888" onClick={()=> onOpen()}>
+                <Button px={["16", "20", "10"]} variant="outline" borderColor="#BFA888" onClick={()=> onOpen()}>
                   <Text fontSize="17">Detail</Text>
                 </Button>
               </VStack>

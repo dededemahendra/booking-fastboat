@@ -20,7 +20,7 @@ const MainLayout= ()=> {
     </Flex>
   } else {
     return (
-      <div>
+      <Box transitionDuration="500ms">
         <ScrollRestoration/>
         <Header/>
   
@@ -29,7 +29,7 @@ const MainLayout= ()=> {
         </Box>
   
         <Footer/>
-      </div>
+      </Box>
     )
   }
 

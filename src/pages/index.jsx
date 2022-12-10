@@ -2,6 +2,7 @@ import {Box, Heading, Text, Grid, Flex, Image} from '@chakra-ui/react'
 import Banner from '../components/Banner'
 import ChakraCarousel from '../components/ChakraCarousel'
 import { useIsDark } from '../utils/colorMode'
+import { staticDestinations } from '../utils/globalData'
 
 const HomePage= ()=> {
   const isDark= useIsDark()
@@ -20,13 +21,13 @@ const HomePage= ()=> {
 
         <Grid templateColumns={{base: "1fr", lg: "repeat(2, 1fr)"}} gap={["10", "14"]}>
           {
-            [...Array(4)].map((_, k)=> (
+            staticDestinations.map((destination, k)=> (
               <Box position="relative" key={k}>
-                <Box p="4" border="1px solid #BFA888">
-                  <Box p="6" border={`1px solid ${isDark?"#fff":"#000"}`} textAlign="left" pb="10">
-                    <Image src="boat_bridge.jpeg" h="56" w="full" objectFit="cover" mx="auto" mb="7" />
-                    <Heading marginBottom="4" fontSize="2xl">Lembongan Island</Heading>
-                    <Text fontSize="md">Lembongan Island Nusa Lembongan is a small holiday island destination 20 km off the southeast coast of Bali. You can reach it with a 45-minute boat ride from Sanur Beach or Benoa Harbour. It’s a lot quieter than the south of Bali, making it a great place to go for a quiet, relaxing break.</Text>
+                <Box p="4" border="1px solid #BFA888" h="full">
+                  <Box p="6" border={`1px solid ${isDark?"#fff":"#000"}`} textAlign="left" pb="10" h="full">
+                    <Image src={destination.image} h="56" w="full" objectFit="cover" mx="auto" mb="7" />
+                    <Heading marginBottom="4" fontSize="2xl">{ destination.destination }</Heading>
+                    <Text fontSize="md">{ destination.description }</Text>
                   </Box>
                 </Box>
               </Box>

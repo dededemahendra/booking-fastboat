@@ -7,7 +7,6 @@ import axios from "../../utils/axios"
 import SearchBar from "../../components/SearchBar"
 import { setOrderData } from "../../utils/storage"
 import {LoadingState, NoReturnLayout, ReturnLayout} from "./BoatsComponents"
-import { BreadCrumb } from "../../components/BreadCrumb"
 
 const BoatsPage = () => {
   const {from, to, departure, passenger, returnDate}= queryString.parse(location.search)
@@ -99,8 +98,6 @@ const BoatsPage = () => {
 
   return (
     <>
-      <BreadCrumb/>
-
       <Flex alignItems={"center"} justifyContent={"center"}>
         <SearchBar getSearchParams={true} beforeSearch={()=> setIsLoading(true)} />
       </Flex>

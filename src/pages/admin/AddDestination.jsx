@@ -30,7 +30,7 @@ const AddDestination= ()=> {
 
   async function getRoutes() {
     try {
-      const routes= getDestinations()
+      const routes= await getDestinations()
 
       setDepartureTo(routes)
       setDepartureFrom(routes)

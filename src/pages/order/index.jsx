@@ -17,11 +17,11 @@ const BoatDetail= (props)=> {
 
   return (
     <Box p="7" border="1px solid #BFA888" mb="7">
-      <Flex flexDirection="column" bg={isDark?"":"white"} py="12" px="10" radius="md">
-        <Flex flexDirection={["column", "row"]} w="full" spacing="10" alignItems="center">
-          <Image src="boats.jpeg" width={["full", "50%"]} mr={["0", "10"]} />
+      <Flex flexDirection="column" bg={isDark?"":"white"} py="12" px={["5", "5", "10"]} radius="md">
+        <Flex flexDirection={["column", "column", "row"]} w="full" spacing="10" alignItems="center">
+          <Image src="/kapal3.jpg" width={["full", "full", "50%"]} mr={["0", "0" , "10"]} />
           
-          <VStack color={isDark?"white":"black"} spacing="6" mt={["4", "0"]}>
+          <VStack color={isDark?"white":"black"} spacing="6" mt={["7", "7", "0"]}>
             <Heading size={["lg"]}>{type} Fast Boat</Heading>
             <HStack>
               <Text>Passenger</Text>
@@ -36,7 +36,7 @@ const BoatDetail= (props)=> {
           </VStack>
         </Flex>
 
-        <Flex marginTop="10" justifyContent="space-around" alignItems="center" textAlign="center" color={isDark?"white":"black"}>
+        <Flex mt="10" flexDir={["row", "row", "column"]} justifyContent="space-around" alignItems="center" textAlign="center" color={isDark?"white":"black"}>
           <Box>
             <Text fontSize="18">{from}</Text>
             <Text fontWeight="bold">{moment(date).format("ddd, MMMM-D-Y")}</Text>
@@ -164,7 +164,7 @@ const OrderPage= ()=> {
 
           <BoatDetail setPassenger={setPassenger} passenger={passenger} from={from} to={to} date={departureDate} time={departureTime} price={price} />
 
-          {returnDate&&<BoatDetail passenger={passenger} from={to} to={from} date={returnDate} time={returnTime} price={price} />}
+          {returnDate&&<BoatDetail type="Return" passenger={passenger} from={to} to={from} date={returnDate} time={returnTime} price={price} />}
 
           <Flex bgColor={isDark?"":"white"} border={`1px solid #BFA888`} textAlign="center" py="9" justifyContent="center" color={isDark?"white":"black"}>
             <Grid templateColumns="repeat(2, 1fr)" columnGap="10" rowGap="5">

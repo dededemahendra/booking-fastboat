@@ -33,7 +33,7 @@ const EditDestination= ()=> {
 
   async function getRoutes(from) {
     try {
-      const routes= getDestinations()
+      const routes= await getDestinations()
 
       setDepartureFrom(routes)
       setDepartureTo(routes.filter(v=> v!=from))
