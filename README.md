@@ -3,6 +3,9 @@
 
 According to the Head of the Klungkung Tourism Office, the number of tourists visiting Nusa Penida can reach 1,000 to 1,500 people. To reach these destinations, tourists must use a fast boat. Seeing this large number of tourists, the method of buying tickets directly is not very effective, because it can cause long queues. With this website, tourists can plan trips anytime and anywhere without having to go to the port.
 
+#User Guide 
+https://docs.google.com/document/d/1awjK17lz-9lDZUlARtFPkl_tVMNWzJs_-Cz4_jWQDEA/edit?usp=sharing
+
 
 ## Running Tests
 
