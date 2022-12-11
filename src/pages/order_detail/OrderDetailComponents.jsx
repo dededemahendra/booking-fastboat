@@ -88,12 +88,12 @@ export const PassengersDetailForm= props=> {
               </FormInput>
 
               <FormInput title="Mobile Phone">
-                <Input type="number" name={`passengers.${k}.phone`} value={form.values.passengers[k].phone} onChange={form.handleChange} />
+                <Input type="number" name={`passengers.${k}.phone`} value={form.values.passengers[k].phone} onChange={form.handleChange} onBlur={form.handleBlur} />
                 <ErrorMessage form={form} index={k} keys="phone" text="Mobile Phone" />
               </FormInput>
 
               <FormInput title="Gender">
-                <RadioGroup value={form.values.passengers[k].gender} onChange={e=> form.setFieldValue(`passengers.${k}.gender`, e)}>
+                <RadioGroup value={form.values.passengers[k].gender} onChange={e=> form.setFieldValue(`passengers.${k}.gender`, e)} onBlur={form.handleBlur}>
                   <Radio value="male" >Male</Radio>
                   <Radio ml="3" value="female">Female</Radio>
                 </RadioGroup>

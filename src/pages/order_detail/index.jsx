@@ -72,11 +72,11 @@ const OrderDetailPage= ()=> {
       
     
     departureForm.handleSubmit()
-    let valid= departureForm.isValid &&  Object.keys(departureForm.touched).length > 0 
+    let valid= departureForm.isValid && Object.keys(departureForm.touched).length > 0 
 
     if (isReturn) {
       returnForm.handleSubmit()
-      valid= returnForm.isValid &&  Object.keys(returnForm.touched).length > 0
+      valid= returnForm.isValid && Object.keys(returnForm.touched).length > 0
 
       payment_details.item_details.push({
         ...item_detail,
@@ -121,6 +121,12 @@ const OrderDetailPage= ()=> {
     }
   }
 
+  async function setReturnValueAsDepartureValue() {
+    await returnForm.setValues(departureForm.values)
+
+    returnForm.handleSubmit()
+  }
+
   async function getNationality() {
     try {
       const {data}= await axios("/api?apicall=nationality")
@@ -153,7 +159,7 @@ const OrderDetailPage= ()=> {
 
           {isReturn&&<>
             <PassengersDetailForm form={returnForm} initialValues={departureInitialValue} nationality={nationality} isReturnForm={true} >
-              <Button onClick={()=> returnForm.setValues(departureForm.values)}>Same as Above</Button>
+              <Button onClick={()=> setReturnValueAsDepartureValue()}>Same as Above</Button>
             </PassengersDetailForm>
           </>}
 

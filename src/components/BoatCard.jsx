@@ -1,4 +1,4 @@
-import { Flex, Heading, Text, UnorderedList, ListItem, VStack, Box } from "@chakra-ui/layout"
+import { Flex, Heading, Text, UnorderedList, ListItem, Box, VStack } from "@chakra-ui/layout"
 import { Card, CardBody, CardFooter } from "@chakra-ui/card"
 import { Button } from "@chakra-ui/button"
 import { Image } from "@chakra-ui/image"
@@ -26,63 +26,63 @@ const BoatCard = (props) => {
           <Flex  gap={["3", "6"]} direction={["column", "column", "row"]} flexGrow="1">
             <Image src="/Kapal3.jpg" alt="Nusa Penida" w={["full", "full", "40%"]} h={["150px", "200px", ""]} objectFit="cover"  alignSelf="flex-start" />
             
-            <Flex alignItems={["flex-start", "flex-start", "center"]} direction="column" marginTop="4" w="full" px="3">
-              <Box>
+            <Flex justify={["center"]} alignItems={["flex-start", "center", "center"]} direction="column" mt="4" w="full" px="3">
+              <VStack>
                 <Heading fontSize="25" marginBottom={["2", "3"]}>Fast Boat</Heading>
                 <Text fontSize="lg">{from} - {to}</Text>
                 <Text fontSize="lg">{moment(departureDate).format("ddd, MMMM-D-Y")}</Text>
                 <Text fontSize="lg">{departureTime.split(" ").pop() || "-"}</Text>
-              </Box>
+              </VStack>
             </Flex>
           </Flex>
 
-          <Flex direction={["column-reverse", "row" ,"column-reverse"]} gap={["8", "5"]} mt={["5", "5", "0"]} justifySelf={["flex-start", "flex-end"]} alignItems={["center"]} justifyContent={["flex-start", "space-between", "flex-start"]}>
-              <VStack>
-                <Button px={["16", "20", "10"]} variant="outline" borderColor="#BFA888" onClick={()=> canCancel && selectedId!=null?props.onSelectBoat(null):props.onSelectBoat(id)}>
-                  <Text fontSize="17">{canCancel && selectedId!=null?"Cancel":"Select"}</Text>
-                </Button>
+          <Flex direction="column" mt={["5"]} gap="4">
+            <Heading textAlign={["center", ""]} fontSize="20">{formatRupiah(price * passenger)}</Heading>
 
-                <Button px={["16", "20", "10"]} variant="outline" borderColor="#BFA888" onClick={()=> onOpen()}>
-                  <Text fontSize="17">Detail</Text>
-                </Button>
-              </VStack>
+            <VStack>
+              <Button px={["16", "20", "10"]} variant="outline" borderColor="#BFA888" onClick={()=> canCancel && selectedId!=null?props.onSelectBoat(null):props.onSelectBoat(id)}>
+                <Text fontSize="17">{canCancel && selectedId!=null?"Cancel":"Select"}</Text>
+              </Button>
 
-              <Heading fontSize={["20", "24"]}>{formatRupiah(price * passenger)}</Heading>
+              <Button px={["16", "20", "10"]} variant="outline" borderColor="#BFA888" onClick={()=> onOpen()}>
+                <Text fontSize="17">Detail</Text>
+              </Button>
+            </VStack>
 
-              <AlertDialog isOpen={isOpen} onClose={onClose} isCentered motionPreset="slideInBottom" leastDestructiveRef={cancelRef}>
-                <AlertDialogOverlay/>
-                <AlertDialogContent>
-                  <AlertDialogHeader>Detail</AlertDialogHeader>
+            <AlertDialog isOpen={isOpen} onClose={onClose} isCentered motionPreset="slideInBottom" leastDestructiveRef={cancelRef}>
+              <AlertDialogOverlay/>
+              <AlertDialogContent>
+                <AlertDialogHeader>Detail</AlertDialogHeader>
 
-                  <AlertDialogCloseButton/>
+                <AlertDialogCloseButton/>
 
-                  <AlertDialogBody borderY="1px solid #fff" px="6">
-                    <UnorderedList spacing="2" mb="4">
-                      <ListItem>Accredited crews and captain</ListItem>
-                      <ListItem>Motorized by Suzuki Marine 250 HP and 300 HP</ListItem>
-                      <ListItem>Large boat capacity with modern reclining seats</ListItem>
-                      <ListItem>VIP area Only for request</ListItem>
-                      <ListItem>Full Music on board</ListItem>
-                      <ListItem>Free Mineral water on board</ListItem>
-                      <ListItem>Safety ; Life jackets adult and child, Life rings, Life rafts, Life buoys,Fire extinguisher</ListItem>
-                    </UnorderedList>
+                <AlertDialogBody borderY="1px solid #fff" px="6">
+                  <UnorderedList spacing="2" mb="4">
+                    <ListItem>Accredited crews and captain</ListItem>
+                    <ListItem>Motorized by Suzuki Marine 250 HP and 300 HP</ListItem>
+                    <ListItem>Large boat capacity with modern reclining seats</ListItem>
+                    <ListItem>VIP area Only for request</ListItem>
+                    <ListItem>Full Music on board</ListItem>
+                    <ListItem>Free Mineral water on board</ListItem>
+                    <ListItem>Safety ; Life jackets adult and child, Life rings, Life rafts, Life buoys,Fire extinguisher</ListItem>
+                  </UnorderedList>
 
-                    <Table borderTop="1px solid #fff">
-                      <Tbody >
-                        <Tr>
-                          <Td>1 Ticket</Td>
-                          <Td w="fit-content">:</Td>
-                          <Td>{formatRupiah(price)} / Pax</Td>
-                        </Tr>
-                      </Tbody>
-                    </Table>
-                  </AlertDialogBody>
+                  <Table borderTop="1px solid #fff">
+                    <Tbody >
+                      <Tr>
+                        <Td>1 Ticket</Td>
+                        <Td w="fit-content">:</Td>
+                        <Td>{formatRupiah(price)} / Pax</Td>
+                      </Tr>
+                    </Tbody>
+                  </Table>
+                </AlertDialogBody>
 
-                  <AlertDialogFooter>
-                    <Button ref={cancelRef} onClick={()=> onClose()}>Close</Button>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
+                <AlertDialogFooter>
+                  <Button ref={cancelRef} onClick={()=> onClose()}>Close</Button>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </Flex>
         </Flex>
 

@@ -35,7 +35,7 @@ const DashboardAdmin= ()=> {
 
       console.log(data);
 
-      alert("berhasil dihapus")
+      alert("deleted.")
 
       getDestinations()
     } catch (error) {

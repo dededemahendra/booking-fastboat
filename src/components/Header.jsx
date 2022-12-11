@@ -12,7 +12,7 @@ const Header = () => {
   const isDark= useIsDark()
 
   return (
-    <Flex justify="space-between" alignItems="center" paddingX={"10"} height="80px" bgColor={"gray"} position="fixed"  width={"full"} zIndex="overlay" bg={isDark?"#021528":"white"} boxShadow={"1px 1px 5px #000"} color={isDark?"white":"#BFA888"}>
+    <Flex justify="space-between" alignItems="center" paddingX={"10"} height="80px" bgColor={"gray"} position="fixed"  width={"full"} zIndex="overlay" bg={isDark?"#021528":"white"} boxShadow={"1px 1px 5px #000"} color={isDark?"white":"#595879"}>
       <Link to="/">
         <Image src={isDark?"logoTulisan.png":"logoTulisanLight.png"} w={["48","64"]} />
       </Link>

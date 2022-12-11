@@ -69,7 +69,7 @@ export const ReturnLayout= (props)=> {
 
   return (
     <Grid templateColumns={["1fr", "1fr", "repeat(2, 1fr)"]} paddingX={["8"]} textAlign="center">
-      <GridItem borderRight={isDark?["", "", "3px solid #fff"]:["", "" , "3px solid gold"]} px="5">
+      <GridItem borderRight={isDark?["", "", "2px solid #fff"]:["", "" , "2px solid #000"]} px="5">
         <Heading size="lg" mb="5">Departure</Heading>
 
         <HStack justifyContent="center" alignItems="center" gap="2">

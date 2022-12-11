@@ -32,3 +32,11 @@ export const staticDestinations= [
     image: "/gili.jpg"
   }
 ]
+
+export const staticReviews= [
+  {
+    review: "Membeli ticket di website ini sangat memudahkan saya dalam mengatur perjalanan liburan saya,",
+    name: "ANTHONIO BLANCO I ", 
+    pekerjaan: "Waitress"
+  }
+]

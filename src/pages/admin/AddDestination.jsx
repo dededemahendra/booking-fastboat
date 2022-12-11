@@ -68,7 +68,7 @@ const AddDestination= ()=> {
       toast({
         status: "success",
         title: "Success",
-        description: "Destinasi berhasil ditambahkan",
+        description: "Destination successfully added.",
         position: "top-right",
         duration: 1000
       })

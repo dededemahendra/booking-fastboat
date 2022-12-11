@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react"
 import { useNavigate, useSearchParams } from "react-router-dom"
 import queryString from 'query-string'
-import {Flex} from "@chakra-ui/layout"
-import { Heading, Text } from "@chakra-ui/react"
+import {Box, Center, Divider, Flex} from "@chakra-ui/layout"
+import { Text } from "@chakra-ui/react"
 import axios from "../../utils/axios"
 import SearchBar from "../../components/SearchBar"
 import { setOrderData } from "../../utils/storage"
 import {LoadingState, NoReturnLayout, ReturnLayout} from "./BoatsComponents"
+import { useIsDark } from "../../utils/colorMode"
 
 const BoatsPage = () => {
   const {from, to, departure, passenger, returnDate}= queryString.parse(location.search)
@@ -17,6 +18,8 @@ const BoatsPage = () => {
   const [departureBoatId, setDepartureBoatId]= useState(null)
   const [returnBoats, setReturnBoats]= useState([])
   const [returnBoatId, setReturnBoatId]= useState(null)
+
+  const isDark= useIsDark()
 
   async function getBoats(from, to) {
     try {
@@ -80,7 +83,7 @@ const BoatsPage = () => {
 
     if (returnDate) {
       if (!departureBoats || !returnBoats) {
-        return <Text>Boat is not available.</Text>
+        return <Text textAlign="center">Boat is not available.</Text>
       }
 
       return <ReturnLayout onSelectDepartureBoat={setDepartureBoatId} departureBoatId={departureBoatId} onSelectReturnBoat={setReturnBoatId} departureBoats={departureBoats} returnBoats={returnBoats}  />
@@ -88,23 +91,25 @@ const BoatsPage = () => {
     
     else {
       if (!departureBoats) {
-        return <Text>Boat is not available.</Text>
+        return <Text textAlign="center">Boat is not available.</Text>
       }
 
       return <NoReturnLayout onSelectBoat={setDepartureBoatId}  boats={departureBoats}   />
     }
-
   }
 
   return (
     <>
-      <Flex alignItems={"center"} justifyContent={"center"}>
+      <Flex alignItems={"center"} justifyContent={"center"} direction="column">
         <SearchBar getSearchParams={true} beforeSearch={()=> setIsLoading(true)} />
+
+        <Text fontSize="4xl" textAlign="center" fontWeight="700" mt="35" mb="3" textTransform="uppercase" fontFamily="cormorant upright">schedule</Text>
+        <Divider bg="#BFA888" w="60%" />
       </Flex>
 
-      <Heading textAlign="center" fontWeight="700" mt="35" mb="6"> Hasil Pencarian</Heading>
-
-      <Body />
+      <Box >
+        <Body/>
+      </Box>
     </>
   )
 }

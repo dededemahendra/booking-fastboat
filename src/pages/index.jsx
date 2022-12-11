@@ -11,7 +11,7 @@ const HomePage= ()=> {
     <>
       <Banner />
 
-      <Box textAlign={"center"} marginTop={"10"} paddingX={["10", "32", "40"]} bgImage={isDark?"/BGPulau.png":"/BgPutihBertekstur.jpg"} bgRepeat="no-repeat" backgroundPosition="center" position="relative" pt="8">
+      <Box textAlign={"center"} marginTop={"10"} paddingX={["5", "20", "40"]} bgImage={isDark?"/BGPulau.png":"/BgPutihBertekstur.jpg"} bgRepeat="no-repeat" backgroundPosition="center" position="relative" pt="8">
         <Text position="absolute" top="0" left="50%" transform="translateX(-50%)" opacity=".5" fontSize="6xl" fontWeight="bold" color="#BFA888" zIndex="base">FastBoat</Text>
 
         <Box pos="relative" zIndex="dropdown" color={isDark?"#BFA888":"black"}>
@@ -42,7 +42,7 @@ const HomePage= ()=> {
           <Heading fontSize="4xl" marginBottom="12">PEOPLE ABOUT US</Heading>
         </Box>
 
-        <Box w={["80%", "50%"]} border={`1px solid ${isDark?"#fff":"#000"}`} px={["3", "10"]} py="5">
+        <Box w={["80%", "70%", "50%"]} border={`1px solid ${isDark?"#fff":"#000"}`} px={["3", "10"]} py="5">
           <ChakraCarousel gap={0} >
             {
               [...Array(4)].map((_, k)=> (

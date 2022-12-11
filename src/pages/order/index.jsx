@@ -98,10 +98,20 @@ const OrderPage= ()=> {
 
 
   function orderBoat() {
-    if (!(form.isValid && Object.keys(form.touched).length>0)) {
-      window.scroll(0, 0)
+    form.handleSubmit()
 
-      return toast({
+    if (form.isValid && Object.keys(form.touched).length > 0) {
+      setOrderData({
+        ...getOrderData(),
+        clientData: form.values,
+        passenger,
+      })
+  
+      return navigate("/order_detail")
+    } else {
+      window.scroll(0, 0)
+      
+      toast({
         status: "warning",
         title: "Warning",
         position: "top-right",
@@ -110,13 +120,7 @@ const OrderPage= ()=> {
       })
     }
 
-    setOrderData({
-      ...getOrderData(),
-      clientData: form.values,
-      passenger,
-    })
 
-    navigate("/order_detail")
   }
 
   useEffect(()=> {
@@ -145,7 +149,7 @@ const OrderPage= ()=> {
       <Flex px={["8", "20", "24"]} pt="10" flexDirection={["column", "column", "row"]} color="black">
 
         <Box width={["full", "full", "35%"]} mr="16" mb={["5", "5", "0"]} position="sticky" height="full">
-          <Heading size={"lg"} color={isDark?"white":""} marginBottom="5">Booked By</Heading>
+        <Text fontSize="4xl" color={isDark?"white":"black"} marginBottom="5" fontFamily="cormorant-upright">Booked By</Text>
 
           <Box borderRadius="md" bgColor={isDark?"":"white"} border="1px solid #BFA888" padding="7">
 
@@ -160,7 +164,7 @@ const OrderPage= ()=> {
         </Box>
 
         <Box width={["full", "full", "65%"]}>
-          <Heading size={"lg"} color={isDark?"white":"black"} marginBottom="5">Booking Cart</Heading>
+          <Text fontSize="4xl" color={isDark?"white":"black"} marginBottom="5" fontFamily="cormorant-upright">Booking Cart</Text>
 
           <BoatDetail setPassenger={setPassenger} passenger={passenger} from={from} to={to} date={departureDate} time={departureTime} price={price} />
 
