@@ -25,7 +25,7 @@ const AdminHeader= (props)=> {
   }
 
   return (
-    <Flex pos="fixed" h="20" bg="#000" zIndex="modal" right="0" w={["full", "85%"]} alignItems="center" justifyContent="space-between" px="10">
+    <Flex pos="fixed" h="20" bg="#021528" boxShadow="1px 1px 5px #000" zIndex="modal" right="0" w={["full", "80%", "85%"]} alignItems="center" justifyContent="space-between" px="10">
       <Box>
         <Link to="/admin">
           <Text fontWeight="bold" fontSize="lg">Fast Boat to Paradise</Text>

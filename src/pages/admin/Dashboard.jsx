@@ -33,8 +33,6 @@ const DashboardAdmin= ()=> {
     try {
       const { data }= await axios(`/api?apicall=delete-trip&kode=${id}`)
 
-      console.log(data);
-
       alert("deleted.")
 
       getDestinations()
@@ -63,7 +61,7 @@ const DashboardAdmin= ()=> {
   return (
     <Box w="full">
       <Box>
-        <Heading>Dashboard Admin</Heading>
+        <Heading>Destinations</Heading>
 
         <Link to="/admin/add">
           <Button my="3" bg="green.400" _hover={{bg: "green.600"}}>Add Destination</Button>

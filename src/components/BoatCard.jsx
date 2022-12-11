@@ -26,7 +26,7 @@ const BoatCard = (props) => {
           <Flex  gap={["3", "6"]} direction={["column", "column", "row"]} flexGrow="1">
             <Image src="/Kapal3.jpg" alt="Nusa Penida" w={["full", "full", "40%"]} h={["150px", "200px", ""]} objectFit="cover"  alignSelf="flex-start" />
             
-            <Flex justify={["center"]} alignItems={["flex-start", "center", "center"]} direction="column" mt="4" w="full" px="3">
+            <Flex justify={["center"]} align="center" direction="column" mt="4" w="full" px="3">
               <VStack>
                 <Heading fontSize="25" marginBottom={["2", "3"]}>Fast Boat</Heading>
                 <Text fontSize="lg">{from} - {to}</Text>

@@ -107,7 +107,7 @@ const BoatsPage = () => {
         <Divider bg="#BFA888" w="60%" />
       </Flex>
 
-      <Box >
+      <Box mt="6">
         <Body/>
       </Box>
     </>

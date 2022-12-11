@@ -35,8 +35,16 @@ export const staticDestinations= [
 
 export const staticReviews= [
   {
-    review: "Membeli ticket di website ini sangat memudahkan saya dalam mengatur perjalanan liburan saya,",
-    name: "ANTHONIO BLANCO I ", 
-    pekerjaan: "Waitress"
+    review: "Excellent service fast boat to lembongan with arthamas express",
+    name: "Maria",
+  }, {
+    review: "Great service",
+    name: "Siti Nurbaya"
+  }, {
+    review: "Fast and good price",
+    name: "Dadang"
+  }, {
+    review: "Great service with confortable fast boat and reasonable price",
+    name: "Budha"
   }
 ]

@@ -2,7 +2,7 @@ import {Box, Heading, Text, Grid, Flex, Image} from '@chakra-ui/react'
 import Banner from '../components/Banner'
 import ChakraCarousel from '../components/ChakraCarousel'
 import { useIsDark } from '../utils/colorMode'
-import { staticDestinations } from '../utils/globalData'
+import { staticDestinations, staticReviews } from '../utils/globalData'
 
 const HomePage= ()=> {
   const isDark= useIsDark()
@@ -45,10 +45,10 @@ const HomePage= ()=> {
         <Box w={["80%", "70%", "50%"]} border={`1px solid ${isDark?"#fff":"#000"}`} px={["3", "10"]} py="5">
           <ChakraCarousel gap={0} >
             {
-              [...Array(4)].map((_, k)=> (
+              staticReviews.map((review, k)=> (
                 <Flex key={k} w="full" p="5" alignItems="center" justifyContent="center"  direction="column" gap="5">
-                  <Text noOfLines={2} fontSize={["lg"]}>Membeli ticket di website ini sangat memudahkan saya dalam mengatur perjalanan liburan saya</Text>
-                  <Text fontSize="md">ANTHONIO BLANCO I / Waitress</Text>
+                  <Text noOfLines={2} fontSize={["lg"]}>{review.review}</Text>
+                  <Text fontSize="md">{review.name}</Text>
                 </Flex>
               ))
             }

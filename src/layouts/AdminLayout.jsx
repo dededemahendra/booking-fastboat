@@ -1,4 +1,4 @@
-import { Box, Flex } from "@chakra-ui/layout"
+import { Box, Flex, VStack } from "@chakra-ui/layout"
 import { Image, Text } from "@chakra-ui/react"
 import { useState, useEffect } from "react"
 import { Link, useNavigate, Outlet } from "react-router-dom"
@@ -43,22 +43,25 @@ const AdminLayout= ()=> {
     <>
       <AdminHeader user={user} />
 
-      <Box h="full" position="fixed" display={["none", "block"]} w={["0", "20%", "15%"]} bg="gray" p="5">
+      <Box h="full" position="fixed" display={["none", "block"]} w={["0", "20%", "15%"]} bg="#021528" boxShadow="1px 1px 5px #000" p="5">
         <Link to="/">
           <Image src="/favicon.png" w="24" mx="auto" />
         </Link>
 
-        <Box mt="7">
-          <Text>Menus</Text>
+        <VStack mt="10" align="flex-start">
+          <Text>Menu</Text>
 
-          <Link to="/admin">
-            <Text fontWeight="bold" fontSize="md">Destinations</Text>
-          </Link>
-        </Box>
+          <Box>
+            <Link to="/admin">
+              <Text fontWeight="bold" fontSize="lg">Destinations</Text>
+            </Link>
+          </Box>
+
+        </VStack>
       </Box>
 
       <Flex justify="flex-end" w="full">
-        <Box p="8" pt="28" w={["full", "80%", "85%"]}>
+        <Box p="10" pt="28" w={["full", "80%", "85%"]}>
           <Outlet/>
         </Box>
       </Flex>
